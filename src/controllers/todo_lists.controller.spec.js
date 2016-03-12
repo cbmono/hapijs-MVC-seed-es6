@@ -11,14 +11,9 @@ describe( 'Controller: ToDo Lists', () => {
     beforeEach( () => {
         controller = new ToDoListsController();
 
-        [
-            'findAll',
-            'findById',
-            'findByIdWithToDos',
-            'save',
-            'update',
-            'del',
-        ].forEach( f => spyOn( controller.ToDoList, f ).and.returnValue( Promise.resolve( {} ) ) );
+        [ 'findAll', 'findById', 'findByIdWithToDos', 'save', 'update', 'del' ].forEach( f => {
+            spyOn( controller.ToDoList, f ).and.returnValue( Promise.resolve( {} ) );
+        } );
     } );
 
     it( 'should be defined and inherit from BaseController', () => {
