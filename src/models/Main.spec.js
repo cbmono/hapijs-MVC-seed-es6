@@ -1,5 +1,4 @@
-import * as Q  from 'q'
-import { Main } from './Main'
+import { Main } from './Main';
 
 
 //
@@ -18,7 +17,7 @@ describe('Model: Main', () => {
   })
 
   it('should expose doHealthcheck()', (done) => {
-    spyOn(model.Knex, 'raw').and.returnValue(Q.when({}))
+    spyOn(model.Knex, 'raw').and.returnValue(Promise.resolve({}))
 
     model.doHealthcheck().then((response) => {
       expect(model.Knex.raw).toHaveBeenCalledWith('SELECT 1+1 AS result')
@@ -31,7 +30,7 @@ describe('Model: Main', () => {
   })
 
   it('should inform when the DB is not healthy', (done) => {
-    spyOn(model.Knex, 'raw').and.returnValue(Q.reject({}))
+    spyOn(model.Knex, 'raw').and.returnValue(Promise.reject({}))
 
     model.doHealthcheck().then((response) => {
       expect(model.Knex.raw).toHaveBeenCalled()

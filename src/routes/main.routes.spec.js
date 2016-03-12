@@ -1,26 +1,27 @@
-import { assertRoutes } from '../../tests/helpers'
-import * as routes  from './main.routes'
+import { assertRoutes } from '../../tests/helpers';
+import * as routes from './main.routes';
+import find from 'lodash/find';
 
 
 //
 // Tests
 //
-describe('Routes: Main', () => {
+describe( 'Routes: Main', () => {
 
-  it('should expose GET /healthcheck', () => {
-    let path = '/healthcheck'
-      , method = 'GET'
+    const method = 'GET';
 
-    assertRoutes(routes.default, path, method)
-  })
+    it( 'should expose GET /healthcheck', () => {
+        const path = '/healthcheck';
 
-  it('should expose GET /{param*}', () => {
-    let path = '/{param*}'
-      , method = 'GET'
-      , route = _.find(routes.default, { path: path, method: method })
+        assertRoutes( routes.default, path, method );
+    } );
 
-    expect(route.path).toBe(path)
-    expect(route.method).toBe(method)
-    expect(route.config.handler.directory.path).toBe('./public')
-  })
-})
+    it( 'should expose GET /{param*}', () => {
+        const path = '/{param*}';
+        const route = find( routes.default, { path, method } );
+
+        expect( route.path ).toBe( path );
+        expect( route.method ).toBe( method );
+        expect( route.config.handler.directory.path ).toBe( './public' );
+    } );
+} );
