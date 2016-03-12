@@ -1,75 +1,64 @@
-import * as Q  from 'q'
-import { ToDoListsController } from './todo_lists.controller'
-
+import { ToDoListsController } from './todo_lists.controller';
 
 //
 // Tests
 //
-describe('Controller: ToDo Lists', () => {
-  let controller
+describe( 'Controller: ToDo Lists', () => {
+    let controller;
+    const id = 1;
+    const request = { params : { id } };
 
-  beforeEach(() => {
-    controller = new ToDoListsController()
+    beforeEach( () => {
+        controller = new ToDoListsController();
 
-    spyOn(controller.ToDoList, 'findAll').and.returnValue(Q.when({}))
-    spyOn(controller.ToDoList, 'findById').and.returnValue(Q.when({}))
-    spyOn(controller.ToDoList, 'findByIdWithToDos').and.returnValue(Q.when({}))
-    spyOn(controller.ToDoList, 'save').and.returnValue(Q.when({}))
-    spyOn(controller.ToDoList, 'update').and.returnValue(Q.when({}))
-    spyOn(controller.ToDoList, 'del').and.returnValue(Q.when({}))
-  })
+        [
+            'findAll',
+            'findById',
+            'findByIdWithToDos',
+            'save',
+            'update',
+            'del',
+        ].forEach( f => spyOn( controller.ToDoList, f ).and.returnValue( Promise.resolve( {} ) ) );
+    } );
 
-  it('should be defined and inherit from BaseController', () => {
-    expect(controller).not.toBe(undefined)
-    expect(controller.Boom).not.toBe(undefined)
-  })
+    it( 'should be defined and inherit from BaseController', () => {
+        expect( controller ).not.toBeUndefined();
+        expect( controller.Boom ).not.toBeUndefined();
+    } );
 
-  it('should expose index()', () => {
-    controller.index()
-    expect(controller.ToDoList.findAll).toHaveBeenCalled()
-  })
+    it( 'should expose index()', () => {
+        controller.index();
+        expect( controller.ToDoList.findAll ).toHaveBeenCalled();
+    } );
 
-  it('should expose view()', () => {
-    let id = 1
-      , request = { params: { id: id }}
+    it( 'should expose view()', () => {
+        controller.view( request );
+        expect( controller.ToDoList.findById ).toHaveBeenCalledWith( id );
+    } );
 
-    controller.view(request)
-    expect(controller.ToDoList.findById).toHaveBeenCalledWith(id)
-  })
+    it( 'should expose viewAll()', () => {
+        controller.viewAll( request );
+        expect( controller.ToDoList.findByIdWithToDos ).toHaveBeenCalledWith( id );
+    } );
 
-  it('should expose viewAll()', () => {
-    let id = 1
-      , request = { params: { id: id }}
+    it( 'should expose create()', () => {
+        const payload = { name : 'New ToDo List' };
+        const rqst = { payload };
 
-    controller.viewAll(request)
-    expect(controller.ToDoList.findByIdWithToDos).toHaveBeenCalledWith(id)
-  })
+        controller.create( rqst );
+        expect( controller.ToDoList.save ).toHaveBeenCalledWith( payload );
+    } );
 
-  it('should expose create()', () => {
-    let payload = { name: 'New ToDo List' }
-      , request = { payload: payload }
+    it( 'should expose update()', () => {
+        const payload = { name : 'Updated ToDo List' };
+        const rqst = { ...request, payload };
 
-    controller.create(request)
-    expect(controller.ToDoList.save).toHaveBeenCalledWith(payload)
-  })
+        controller.update( rqst );
+        expect( controller.ToDoList.update ).toHaveBeenCalledWith( id, payload );
+    } );
 
-  it('should expose update()', () => {
-    let id = 1
-      , payload = { name: 'Updated ToDo List' }
-      , request = {
-          params: { id: id },
-          payload: payload
-        }
-
-    controller.update(request)
-    expect(controller.ToDoList.update).toHaveBeenCalledWith(id, payload)
-  })
-
-  it('should expose remove()', () => {
-    let id = 1
-      , request = { params: { id: id }}
-
-    controller.remove(request)
-    expect(controller.ToDoList.del).toHaveBeenCalledWith(id)
-  })
-})
+    it( 'should expose remove()', () => {
+        controller.remove( request );
+        expect( controller.ToDoList.del ).toHaveBeenCalledWith( id );
+    } );
+} );
