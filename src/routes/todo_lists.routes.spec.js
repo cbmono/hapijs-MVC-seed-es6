@@ -1,5 +1,5 @@
 import { assertRoutes } from '../../tests/helpers';
-import * as routes  from './todo_lists.routes';
+import * as routes from './todo_lists.routes';
 
 
 //
@@ -42,9 +42,9 @@ describe( 'Routes: ToDo Lists', () => {
     } );
 
     it( 'should expose DELETE /todo-lists/{1}', () => {
-        const path = '/todo-lists/{id}';
+        const path = `${base}/{id}`;
         const method = 'DELETE';
 
-        assertRoutes( routes.default, path, method, true )
-    } )
-} )
+        assertRoutes( routes.default, path, method, true );
+    } );
+} );
