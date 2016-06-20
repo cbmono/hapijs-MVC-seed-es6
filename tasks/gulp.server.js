@@ -37,7 +37,7 @@ gulp.task('nodemon', () => {
     gutil.log('')
     gutil.log(gutil.colors.red(`NODE_ENV is not defined`))
     gutil.log(gutil.colors.cyan('Please run: export NODE_ENV=dev' + `\n`))
-    process.exit(0)
+    process.exit(1)
   }
 
   nodemon({
