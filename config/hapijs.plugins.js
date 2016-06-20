@@ -7,6 +7,16 @@ export default [
   { // Display API routes on terminal
     register: require('blipp')
   },
+
+  { // Handling for static files and directories
+    register: require('inert')
+  },
+  
+  { // Automated RESTful documentation
+    register: require('lout'),
+    options: { endpoint: '/docs' }
+  },
+
   { // Templates rendering (used by lout)
     register: require('vision')
   },

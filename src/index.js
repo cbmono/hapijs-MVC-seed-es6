@@ -1,9 +1,9 @@
 'use strict'
 
-import config  from 'config'
-import fs  from 'fs'
-import Hapi  from 'hapi'
 import _  from 'lodash'
+import fs  from 'fs'
+import config  from 'config'
+import Hapi  from 'hapi'
 import path  from 'path'
 import { default as pluginsConfig } from '../config/hapijs.plugins'
 import { default as log } from './logger'
@@ -16,33 +16,12 @@ import { default as log } from './logger'
 GLOBAL._ = _        // lodash
 GLOBAL.log = log    // Used instead of console()
 
-// Setup the server
+//
+// Create server
+//
 const server = new Hapi.Server()
 server.connection(config.get('server'))
 
-// Register hapi plugins
-for (let plugin in pluginsConfig) {
-  server.register(
-    {
-      register: require(plugin),
-      options: pluginsConfig[plugin]
-    },
-    (err) => { if (err) throw err }
-  )
-}
-
-// Require all routes found in the ./routes folder
-let routesNormalizedPath = path.join(__dirname, 'routes')
-
-fs.readdirSync(routesNormalizedPath).forEach((file) => {
-  if (file !== 'base.routes.js' && file.indexOf('.spec.') === -1) {
-    let route = require('./routes/' + file)
-    server.route(route.default)
-  }
-})
-
-
-///////////////////////////////////////
 //
 // Register Hapi plugin's
 //

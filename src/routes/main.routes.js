@@ -23,8 +23,8 @@ let routes = new class MainRoutes extends BaseRoutes {
     return {
       method: 'GET',
       path: '/healthcheck',
+      handler: this.controller.healthcheck.bind(this.controller),
       config: {
-        handler: this.controller.healthcheck.bind(this.controller),
         description: 'Display the status of the App and DB connection',
         tags: [ 'public' ]
       }

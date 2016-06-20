@@ -51,8 +51,8 @@ export class BaseRoutes {
     return {
       method: 'GET',
       path: this.endpoint,
+      handler: this.controller.index.bind(this.controller),
       config: {
-        handler: this.controller.index.bind(this.controller),
         description: 'List all entries',
         tags: [ 'public' ]
       }
@@ -70,8 +70,8 @@ export class BaseRoutes {
     return {
       method: 'GET',
       path: this.endpoint + '/{id}',
+      handler: this.controller.view.bind(this.controller),
       config: {
-        handler: this.controller.view.bind(this.controller),
         description: 'Get an entry by ID',
         tags: [ 'public' ],
         validate: {
@@ -94,8 +94,8 @@ export class BaseRoutes {
     return {
       method: 'POST',
       path: this.endpoint,
+      handler: this.controller.create.bind(this.controller),
       config: {
-        handler: this.controller.create.bind(this.controller),
         description: 'Add a new entry',
         tags: [ 'public' ],
         validate: {
@@ -116,8 +116,8 @@ export class BaseRoutes {
     return {
       method: 'PUT',
       path: this.endpoint + '/{id}',
+      handler: this.controller.update.bind(this.controller),
       config: {
-        handler: this.controller.update.bind(this.controller),
         description: 'Update an existing entry',
         tags: [ 'public' ],
         validate: {
@@ -142,8 +142,8 @@ export class BaseRoutes {
     return {
       method: 'DELETE',
       path: this.endpoint + '/{id}',
+      handler: this.controller.remove.bind(this.controller),
       config: {
-        handler: this.controller.remove.bind(this.controller),
         description: 'Delete an entry',
         tags: [ 'public' ],
         validate: {
