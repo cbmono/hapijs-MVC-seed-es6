@@ -9,9 +9,12 @@ import { default as pluginsConfig } from '../config/hapijs.plugins'
 import { default as log } from './logger'
 
 
-// Global dependencies (available across the whole App)
-GLOBAL._ = _
-GLOBAL.log = log
+//
+// Global dependencies 
+// (available across the whole App)
+//
+GLOBAL._ = _        // lodash
+GLOBAL.log = log    // Used instead of console()
 
 // Setup the server
 const server = new Hapi.Server()
@@ -69,7 +72,7 @@ server.register(pluginsConfig,
 
       log.info({
         'Server running at': server.info.uri,
-        'NODE_ENV': process.env.NODE_ENV || 'dev'
+        'NODE_ENV': process.env.NODE_ENV
       })
     })
   }

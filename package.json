@@ -13,7 +13,10 @@
     "test": "gulp test",
     "test:unit": "gulp test:unit",
     "test:api": "gulp test:api",
-    "test:coverage": "gulp test:coverage"
+    "test:coverage": "gulp test:coverage",
+    "db:seed": "gulp db:seed",
+    "db:migrate": "gulp db:migrate",
+    "db:rollback": "gulp db:rollback"
   },
   "dependencies": {
     "babel-core": "^6.4.5",
