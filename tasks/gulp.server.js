@@ -33,6 +33,13 @@ gulp.task('jshint', () => gulp
 
 // Local node server
 gulp.task('nodemon', () => {
+  if (!process.env.NODE_ENV) {
+    gutil.log('')
+    gutil.log(gutil.colors.red(`NODE_ENV is not defined`))
+    gutil.log(gutil.colors.cyan('Please run: export NODE_ENV=dev' + `\n`))
+    process.exit(0)
+  }
+
   nodemon({
     script: appInitSrc,
     ext: 'js html',

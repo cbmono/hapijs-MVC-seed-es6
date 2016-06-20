@@ -41,7 +41,7 @@ fs.readdirSync(routesNormalizedPath).forEach((file) => {
 
 ///////////////////////////////////////
 //
-// Start the server
+// Register Hapi plugin's
 //
 server.register(pluginsConfig,
 
@@ -69,7 +69,7 @@ server.register(pluginsConfig,
 
       log.info({
         'Server running at': server.info.uri,
-        'NODE_ENV': process.env.NODE_ENV || 'local'
+        'NODE_ENV': process.env.NODE_ENV || 'dev'
       })
     })
   }

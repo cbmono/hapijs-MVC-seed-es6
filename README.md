@@ -18,7 +18,7 @@ The seed contains a sample [hapi] application (ToDo Lists) and is preconfigured 
   - postgreSQL
   - SQLite3
   - Schema Migrations and Seeding
-- Pre-configured environments (_local_, _dev_, _staging_, _production_)
+- Pre-configured environments (_dev_, _qa_, _staging_, _production_)
 - Pre-configured CI settings ([Circle CI] / [Travis CI])
 - Powerful payload validations via [joi]
 - Auto-generated documentation ([lout])
@@ -62,7 +62,7 @@ The seed contains a sample [hapi] application (ToDo Lists) and is preconfigured 
   CREATE DATABASE todo;
   ```
 
-4. Duplicate `config/local.js.default` and rename it into `config/local.js`. Then edit and enter your database settings (DB name goes into `config/default.js`).
+4. Duplicate `config/dev.js.default` and rename it into `config/dev.js`. Then edit and enter your database settings (DB name goes into `config/default.js`).
 
 5. [Migrate the database and seed it](#database-migration-and-seed)
   ```
@@ -72,10 +72,9 @@ The seed contains a sample [hapi] application (ToDo Lists) and is preconfigured 
 
 6. Run the app
   ```
+  export NODE_ENV=dev
   gulp
   ```
-
-  (if `NODE_ENV` wasn't exported, then `local` is going to be used)
 
 7. Go to: [http://localhost:3000](http://localhost:3000)
 
@@ -127,16 +126,18 @@ gulp test:unit
 
 ### API Tests
 
-API Tests are saved in `/tests/api` and are meant to test the RESTful end-points of your App.
+API Tests, also known as Integration Tests, are saved in `/tests/api` and are meant to test the RESTful end-points of your App.
 
 In order to test the server responses you have to start the server in a new terminal/tab:
 ```
 cd /path/to/your/project
+export NODE_ENV=dev
 gulp
 ```
 
-Then execute your API Tests:
+Then execute your API Tests from a different terminal:
 ```
+export NODE_ENV=dev     # only needed once
 gulp test:api
 ```
 

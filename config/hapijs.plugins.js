@@ -1,7 +1,7 @@
 'use strict'
 
 //
-// Hapijs Plug-ins
+// Hapi Plugin's
 //
 export default [
   { // Display API routes on terminal

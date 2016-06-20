@@ -138,7 +138,7 @@ export class BaseRoutes {
    */
   remove() {
     this._validateControllerHandler('remove')
-    
+
     return {
       method: 'DELETE',
       path: this.endpoint + '/{id}',
@@ -160,7 +160,7 @@ export class BaseRoutes {
    * 
    * @param  {string} handler
    * @throw {Error}
-   *        In case handler is not a Function
+   *        In case controller handler is not a Function
    */
   _validateControllerHandler(handler) {
     if (typeof this.controller[handler] !== 'function') {
