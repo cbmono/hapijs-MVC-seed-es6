@@ -71,8 +71,8 @@ gulp.task('test:coverage', () => mergeStream(
     .pipe(istanbul.enforceThresholds({ thresholds: { global: 90 } }))
 
     .on('finish', () => {
-      // Only run codecov.io inside of an CI env
-      if (process.env.NODE_ENV && process.env.NODE_ENV.match(/^ci-/i).length) {
+      // Only run codecov.io inside of a CI environment
+      if (process.env.NODE_ENV && /^ci-/i.test(process.env.NODE_ENV)) {
         gulp
           .src(coverageSrc + '/lcov.info')
           .pipe(codecov())

@@ -46,6 +46,8 @@ export class BaseRoutes {
    * @return {object}
    */
   index() {
+    this._validateControllerHandler('index')
+
     return {
       method: 'GET',
       path: this.endpoint,
@@ -63,6 +65,8 @@ export class BaseRoutes {
    * @return {object}
    */
   view() {
+    this._validateControllerHandler('view')
+
     return {
       method: 'GET',
       path: this.endpoint + '/{id}',
@@ -85,6 +89,8 @@ export class BaseRoutes {
    * @return {object}
    */
   create() {
+    this._validateControllerHandler('create')
+
     return {
       method: 'POST',
       path: this.endpoint,
@@ -105,6 +111,8 @@ export class BaseRoutes {
    * @return {object}
    */
   update() {
+    this._validateControllerHandler('update')
+
     return {
       method: 'PUT',
       path: this.endpoint + '/{id}',
@@ -129,6 +137,8 @@ export class BaseRoutes {
    * @return {object}
    */
   remove() {
+    this._validateControllerHandler('remove')
+    
     return {
       method: 'DELETE',
       path: this.endpoint + '/{id}',
@@ -142,6 +152,19 @@ export class BaseRoutes {
           }
         }
       }
+    }
+  }
+
+  /**
+   * Check whether a controller handler is defined
+   * 
+   * @param  {string} handler
+   * @throw {Error}
+   *        In case handler is not a Function
+   */
+  _validateControllerHandler(handler) {
+    if (typeof this.controller[handler] !== 'function') {
+      throw new Error('BaseRoute: controller handler is undefined')
     }
   }
 }

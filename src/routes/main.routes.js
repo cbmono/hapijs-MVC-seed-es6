@@ -40,13 +40,11 @@ let routes = new class MainRoutes extends BaseRoutes {
     return {
       method: 'GET',
       path: '/{param*}',
+      handler: {
+        directory: { path: './public' }
+      },
       config: {
-        handler: {
-          directory: { path: './public' }
-        },
-        plugins: {
-          lout: false
-        },
+        plugins: { lout: false },
         description: 'Serve static files from ./public'
       }
     }

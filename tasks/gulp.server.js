@@ -46,7 +46,7 @@ gulp.task('nodemon', () => {
     gutil.log(gutil.colors.red(`Local server crashed (nodemon): `))
 
     // Exit if running on CI environment
-    if (process.env.NODE_ENV.match(/^ci-/i).length) {
+    if (process.env.NODE_ENV && /^ci-/i.test(process.env.NODE_ENV)) {
       process.exit(1)
     }
   })
