@@ -4,6 +4,10 @@
 // Hapi Plugin's
 //
 export default [
+  { // Auth JWT 2
+    register: require('hapi-auth-jwt2')
+  },
+
   { // Display API routes on terminal
     register: require('blipp')
   },
