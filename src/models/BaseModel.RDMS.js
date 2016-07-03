@@ -1,5 +1,5 @@
 import config  from 'config'
-import Knex  from '../db'
+import Knex  from '../../libs/db'
 
 
 /******************************************

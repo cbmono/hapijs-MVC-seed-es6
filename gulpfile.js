@@ -13,12 +13,12 @@ const gulp = require('gulp')
 //
 // Variables
 //
-var gulpTasksSrc = './tasks/**/gulp.*.js'
+var gulpTasksSrc = './libs/tasks/**/gulp.*.js'
 
 //
 // Load Gulp Tasks
 //
-glob.sync( gulpTasksSrc )
+glob.sync(gulpTasksSrc)
   .forEach((file) => require(path.resolve(file)))
 
 //
