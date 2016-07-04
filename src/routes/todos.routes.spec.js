@@ -5,39 +5,40 @@ import * as routes from './todos.routes';
 //
 // Tests
 //
-describe( 'Routes: ToDos', () => {
-    const base = '/todos';
+describe( 'Routes: ToDo\'s', () => {
 
-    it( 'should expose GET /todos', () => {
-        const method = 'GET';
+  it( 'should expose GET /todos', () => {
+    const path = '/todos';
+    const method = 'GET';
 
-        assertRoutes( routes.default, base, method );
-    } );
+    assertRoutes( routes.default, path, method );
+  } );
 
-    it( 'should expose GET /todos/{id}', () => {
-        const path = `${base}/{id}`;
-        const method = 'GET';
+  it( 'should expose GET /todos/{id}', () => {
+    const path = '/todos/{id}';
+    const method = 'GET';
 
-        assertRoutes( routes.default, path, method, true );
-    } );
+    assertRoutes( routes.default, path, method, true );
+  } );
 
-    it( 'should expose POST /todos', () => {
-        const method = 'POST';
+  it( 'should expose POST /todos', () => {
+    const path = '/todos';
+    const method = 'POST';
 
-        assertRoutes( routes.default, base, method, false, true );
-    } );
+    assertRoutes( routes.default, path, method, false, true );
+  } );
 
-    it( 'should expose PUT /todos/{id}', () => {
-        const path = `${base}/{id}`;
-        const method = 'PUT';
+  it( 'should expose PUT /todos/{id}', () => {
+    const path = '/todos/{id}';
+    const method = 'PUT';
 
-        assertRoutes( routes.default, path, method, true, true );
-    } );
+    assertRoutes( routes.default, path, method, true, true );
+  } );
 
-    it( 'should expose DELETE /todos/{1}', () => {
-        const path = `${base}/{id}`;
-        const method = 'DELETE';
+  it( 'should expose DELETE /todos/{1}', () => {
+    const path = '/todos/{id}';
+    const method = 'DELETE';
 
-        assertRoutes( routes.default, path, method, true );
-    } );
+    assertRoutes( routes.default, path, method, true );
+  } );
 } );

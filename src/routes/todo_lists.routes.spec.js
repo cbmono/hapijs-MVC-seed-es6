@@ -6,45 +6,46 @@ import * as routes from './todo_lists.routes';
 // Tests
 //
 describe( 'Routes: ToDo Lists', () => {
-    const base = '/todo-lists';
 
-    it( 'should expose GET /todo-lists', () => {
-        const method = 'GET';
+  it( 'should expose GET /todo-lists', () => {
+    const path = '/todo-lists';
+    const method = 'GET';
 
-        assertRoutes( routes.default, base, method );
-    } );
+    assertRoutes( routes.default, path, method );
+  } );
 
-    it( 'should expose GET /todo-lists/{id}', () => {
-        const path = `${base}/{id}`;
-        const method = 'GET';
+  it( 'should expose GET /todo-lists/{id}', () => {
+    const path = '/todo-lists/{id}';
+    const method = 'GET';
 
-        assertRoutes( routes.default, path, method, true );
-    } );
+    assertRoutes( routes.default, path, method, true );
+  } );
 
-    it( 'should expose GET /todo-lists/{id}/todos', () => {
-        const path = `${base}/{id}/todos`;
-        const method = 'GET';
+  it( 'should expose GET /todo-lists/{id}/todos', () => {
+    const path = '/todo-lists/{id}/todos';
+    const method = 'GET';
 
-        assertRoutes( routes.default, path, method, true );
-    } );
+    assertRoutes( routes.default, path, method, true );
+  } );
 
-    it( 'should expose POST /todo-lists', () => {
-        const method = 'POST';
+  it( 'should expose POST /todo-lists', () => {
+    const path = '/todo-lists';
+    const method = 'POST';
 
-        assertRoutes( routes.default, base, method, false, true );
-    } );
+    assertRoutes( routes.default, path, method, false, true );
+  } );
 
-    it( 'should expose PUT /todo-lists/{id}', () => {
-        const path = `${base}/{id}`;
-        const method = 'PUT';
+  it( 'should expose PUT /todo-lists/{id}', () => {
+    const path = '/todo-lists/{id}';
+    const method = 'PUT';
 
-        assertRoutes( routes.default, path, method, true, true );
-    } );
+    assertRoutes( routes.default, path, method, true, true );
+  } );
 
-    it( 'should expose DELETE /todo-lists/{1}', () => {
-        const path = `${base}/{id}`;
-        const method = 'DELETE';
+  it( 'should expose DELETE /todo-lists/{1}', () => {
+    const path = '/todo-lists/{id}';
+    const method = 'DELETE';
 
-        assertRoutes( routes.default, path, method, true );
-    } );
+    assertRoutes( routes.default, path, method, true );
+  } );
 } );

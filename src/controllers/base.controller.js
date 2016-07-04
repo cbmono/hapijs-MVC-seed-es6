@@ -1,7 +1,7 @@
-import Boom  from 'boom'
+import Boom from 'boom';
 
 
-/******************************************
+/** ****************************************
  *
  * Define a basic skeleton for all custom controllers.
  *
@@ -10,16 +10,21 @@ import Boom  from 'boom'
  * code across your controllers (via the `constructor()`)
  *
  ******************************************/
- export class BaseController {
+export class BaseController {
+
+  static reportError = Boom;
 
   /**
    * Constructor
    *
    * @param {stirng} notFoundMsg [optional]
    */
-  constructor(notFoundMsg = '') {
-    this.Boom = Boom
-    this.notFoundMsg = notFoundMsg
+  constructor( notFoundMsg = '' ) {
+    if ( new.target === BaseController ) {
+      throw Error( 'BaseController is an abstract class and cannot be instantiated directly' );
+    }
+    this.Boom = Boom;
+    this.notFoundMsg = notFoundMsg;
 
     // Initialise more shared code here ...
   }
@@ -32,12 +37,12 @@ import Boom  from 'boom'
    * @param  {function} reply
    *         Hapi default callback
    */
-  replyOnResponse(response, reply) {
-    if ((Array.isArray(response) && response.length) || response > 0) {
-      reply(response)
+  replyOnResponse( response, reply ) {
+    if ( ( Array.isArray( response ) && response.length ) || response > 0 ) {
+      reply( response );
     }
     else {
-      reply(this.Boom.notFound(this.notFoundMsg))
+      reply( this.Boom.notFound( this.notFoundMsg ) );
     }
   }
 

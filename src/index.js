@@ -1,52 +1,63 @@
-'use strict'
-
-import config  from 'config'
-import fs  from 'fs'
-import Hapi  from 'hapi'
-import _  from 'lodash'
-import path  from 'path'
-import { default as pluginsConfig } from '../config/plugins'
-import { default as log } from './logger'
+import _ from 'lodash';
+import fs from 'fs';
+import config from 'config';
+import Hapi from 'hapi';
+import path from 'path';
+import { default as pluginsConfig } from '../config/hapijs.plugins';
+import { default as log } from './logger';
 
 
-// Global dependencies (available across the whole App)
-GLOBAL._ = _
-GLOBAL.log = log
+//
+// Global dependencies
+// (available across the whole App)
+//
+GLOBAL._ = _;        // lodash
+GLOBAL.log = log;    // Used instead of console()
 
-// Setup the server
-const server = new Hapi.Server()
-server.connection(config.get('server'))
+//
+// Create server
+//
+const server = new Hapi.Server();
+server.connection( config.get( 'server' ) );
 
-// Register hapi plugins
-for (let plugin in pluginsConfig) {
-  server.register(
-    {
-      register: require(plugin),
-      options: pluginsConfig[plugin]
-    },
-    (err) => { if (err) throw err }
-  )
-}
 
-// Require all routes found in the ./routes folder
-let routesNormalizedPath = path.join(__dirname, 'routes')
+/**
+ * registerRoute - Register Routes to the server
+ *
+ * @param { Object } file
+ *
+ */
+const registerRoute = file => {
+  const routes = require( `./routes/${file}` ).default;
+  routes.forEach( route => server.route( route ) );
+};
 
-fs.readdirSync(routesNormalizedPath).forEach((file) => {
-  if (file !== 'base.routes.js' && file.indexOf('.spec.') === -1) {
-    let route = require('./routes/' + file)
-    server.route(route.default)
+//
+// Register Hapi plugin's
+//
+server.register( pluginsConfig,
+
+  err => {
+    if ( err ) throw err;
+
+    // Load routes from ./routes
+    const routesNormalizedPath = path.join( __dirname, 'routes' );
+
+    fs.readdirSync( routesNormalizedPath )
+      .filter( file => !file.includes( '.spec' ) )
+      .filter( file => file !== 'base.routes.js' )
+      .forEach( registerRoute );
+
+    //
+    // Start the server
+    //
+    server.start( error => {
+      if ( error ) throw error;
+
+      log.info( {
+        'Server running at' : server.info.uri,
+        'NODE_ENV'          : process.env.NODE_ENV,
+      } );
+    } );
   }
-})
-
-
-///////////////////////////////////////
-//
-// Start the server
-//
-///////////////////////////////////////
-server.start(() => {
-  log.info({
-    'Server running at': server.info.uri,
-    'With NODE_ENV': process.env.NODE_ENV || 'local'
-  })
-})
+);

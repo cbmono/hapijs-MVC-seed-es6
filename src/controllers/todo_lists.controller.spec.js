@@ -1,59 +1,75 @@
+import * as Q from 'q';
 import { ToDoListsController } from './todo_lists.controller';
+
 
 //
 // Tests
 //
 describe( 'Controller: ToDo Lists', () => {
-    let controller;
+  let controller;
+
+  beforeEach( () => {
+    controller = new ToDoListsController();
+
+    spyOn( controller.ToDoList, 'findAll' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.ToDoList, 'findById' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.ToDoList, 'findByIdWithToDos' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.ToDoList, 'save' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.ToDoList, 'update' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.ToDoList, 'del' ).and.returnValue( Q.when( {} ) );
+  } );
+
+  it( 'should be defined and inherit from BaseController', () => {
+    expect( controller ).not.toBe( undefined );
+    expect( controller.Boom ).not.toBe( undefined );
+  } );
+
+  it( 'should expose index()', () => {
+    controller.index();
+    expect( controller.ToDoList.findAll ).toHaveBeenCalled();
+  } );
+
+  it( 'should expose view()', () => {
     const id = 1;
     const request = { params : { id } };
 
-    beforeEach( () => {
-        controller = new ToDoListsController();
+    controller.view( request );
+    expect( controller.ToDoList.findById ).toHaveBeenCalledWith( id );
+  } );
 
-        [ 'findAll', 'findById', 'findByIdWithToDos', 'save', 'update', 'del' ].forEach( f => {
-            spyOn( controller.ToDoList, f ).and.returnValue( Promise.resolve( {} ) );
-        } );
-    } );
+  it( 'should expose viewAll()', () => {
+    const id = 1;
+    const request = { params : { id } };
 
-    it( 'should be defined and inherit from BaseController', () => {
-        expect( controller ).not.toBeUndefined();
-        expect( controller.Boom ).not.toBeUndefined();
-    } );
+    controller.viewAll( request );
+    expect( controller.ToDoList.findByIdWithToDos ).toHaveBeenCalledWith( id );
+  } );
 
-    it( 'should expose index()', () => {
-        controller.index();
-        expect( controller.ToDoList.findAll ).toHaveBeenCalled();
-    } );
+  it( 'should expose create()', () => {
+    const payload = { name : 'New ToDo List' };
+    const request = { payload };
 
-    it( 'should expose view()', () => {
-        controller.view( request );
-        expect( controller.ToDoList.findById ).toHaveBeenCalledWith( id );
-    } );
+    controller.create( request );
+    expect( controller.ToDoList.save ).toHaveBeenCalledWith( payload );
+  } );
 
-    it( 'should expose viewAll()', () => {
-        controller.viewAll( request );
-        expect( controller.ToDoList.findByIdWithToDos ).toHaveBeenCalledWith( id );
-    } );
+  it( 'should expose update()', () => {
+    const id = 1;
+    const payload = { name : 'Updated ToDo List' };
+    const request = {
+      params : { id },
+      payload,
+    };
 
-    it( 'should expose create()', () => {
-        const payload = { name : 'New ToDo List' };
-        const rqst = { payload };
+    controller.update( request );
+    expect( controller.ToDoList.update ).toHaveBeenCalledWith( id, payload );
+  } );
 
-        controller.create( rqst );
-        expect( controller.ToDoList.save ).toHaveBeenCalledWith( payload );
-    } );
+  it( 'should expose remove()', () => {
+    const id = 1;
+    const request = { params : { id } };
 
-    it( 'should expose update()', () => {
-        const payload = { name : 'Updated ToDo List' };
-        const rqst = { ...request, payload };
-
-        controller.update( rqst );
-        expect( controller.ToDoList.update ).toHaveBeenCalledWith( id, payload );
-    } );
-
-    it( 'should expose remove()', () => {
-        controller.remove( request );
-        expect( controller.ToDoList.del ).toHaveBeenCalledWith( id );
-    } );
+    controller.remove( request );
+    expect( controller.ToDoList.del ).toHaveBeenCalledWith( id );
+  } );
 } );

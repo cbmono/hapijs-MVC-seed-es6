@@ -5,82 +5,91 @@ import { BaseRoutes } from './base.routes';
 // Tests
 //
 describe( 'Routes: Base', () => {
-    let routes;
-    const endpoint = 'my-endpoint';
-    const controller = new class MockedController {
-        index() {}
+  let routes;
+  const endpoint = 'my-endpoint';
+  const controller = new class MockedController {
+    index() {}
+    view() {}
+    create() {}
+    update() {}
+    remove() {}
+  };
 
-        view() {}
+  beforeEach( () => {
+    routes = new BaseRoutes( controller, endpoint );
+  } );
 
-        create() {}
+  it( 'should be defined', () => {
+    expect( routes ).not.toBe( undefined );
+    expect( routes.joi ).not.toBe( undefined );
+    expect( routes.endpoint ).toBe( endpoint );
+    expect( routes.controller ).not.toBe( undefined );
+  } );
 
-        update() {}
+  it( 'should throw on empty controller', () => {
+    try {
+      new BaseRoutes();
+    }
+    catch ( exc ) {
+      expect( exc.name ).toBe( 'Error' );
+      expect( exc.message ).toBe( 'BaseRoute: controller is undefined' );
+    }
+  } );
 
-        remove() {}
-    };
+  it( 'should throw on empty controller handler', () => {
+    try {
+      const emptyCtrl = new class TempController {};
 
-    beforeEach( () => {
-        routes = new BaseRoutes( controller, endpoint );
-    } );
+      routes = new BaseRoutes( emptyCtrl );
+      routes.index();
+    }
+    catch ( exc ) {
+      expect( exc.name ).toBe( 'Error' );
+      expect( exc.message ).toBe( 'BaseRoute: controller handler is undefined' );
+    }
+  } );
 
-    it( 'should be defined', () => {
-        expect( routes ).not.toBeUndefined();
-        expect( routes.joi ).not.toBeUndefined();
-        expect( routes.endpoint ).toBe( endpoint );
-        expect( routes.controller ).not.toBeUndefined();
-    } );
+  it( 'should expose index()', () => {
+    const options = routes.index();
 
-    it( 'should throw on empty controller', () => {
-        try {
-            new BaseRoutes()
-        }
-        catch ( exc ) {
-            expect( exc.name ).toBe( 'Error' );
-            expect( exc.message ).toBe( 'BaseRoute: controller is undefined' );
-        }
-    } );
+    expect( options.method ).toBe( 'GET' );
+    expect( options.path ).toBe( routes.endpoint );
+    expect( options.handler ).not.toBe( undefined );
+  } );
 
-    it( 'should expose index()', () => {
-        const options = routes.index();
+  it( 'should expose view()', () => {
+    const options = routes.view();
 
-        expect( options.method ).toBe( 'GET' );
-        expect( options.path ).toBe( routes.endpoint );
-        expect( options.config.handler ).not.toBeUndefined();
-    } );
+    expect( options.method ).toBe( 'GET' );
+    expect( options.path ).toBe( `${routes.endpoint}/{id}` );
+    expect( options.handler ).not.toBe( undefined );
+    expect( options.config.validate.params.id ).not.toBe( undefined );
+  } );
 
-    it( 'should expose view()', () => {
-        const options = routes.view();
+  it( 'should expose create()', () => {
+    const options = routes.create();
 
-        expect( options.method ).toBe( 'GET' );
-        expect( options.path ).toBe( `${routes.endpoint}/{id}` );
-        expect( options.config.handler ).not.toBeUndefined();
-        expect( options.config.validate.params.id ).not.toBeUndefined();
-    } );
+    expect( options.method ).toBe( 'POST' );
+    expect( options.path ).toBe( routes.endpoint );
+    expect( options.handler ).not.toBe( undefined );
+    expect( options.config.validate ).not.toBe( undefined );
+  } );
 
-    it( 'should expose create()', () => {
-        const options = routes.create();
+  it( 'should expose update()', () => {
+    const options = routes.update();
 
-        expect( options.method ).toBe( 'POST' );
-        expect( options.path ).toBe( routes.endpoint );
-        expect( options.config.handler ).not.toBeUndefined();
-        expect( options.config.validate ).not.toBeUndefined();
-    } );
+    expect( options.method ).toBe( 'PUT' );
+    expect( options.path ).toBe( `${routes.endpoint}/{id}` );
+    expect( options.handler ).not.toBe( undefined );
+    expect( options.config.validate.params.id ).not.toBe( undefined );
+  } );
 
-    it( 'should expose update()', () => {
-        const options = routes.update();
+  it( 'should expose remove()', () => {
+    const options = routes.remove();
 
-        expect( options.method ).toBe( 'PUT' );
-        expect( options.path ).toBe( `${routes.endpoint}/{id}` );
-        expect( options.config.handler ).not.toBeUndefined();
-        expect( options.config.validate.params.id ).not.toBeUndefined();
-    } );
-
-    it( 'should expose remove()', () => {
-        const options = routes.remove();
-
-        expect( options.method ).toBe( 'DELETE' );
-        expect( options.path ).toBe( `${routes.endpoint}/{id}` );
-        expect( options.config.handler ).not.toBeUndefined();
-        expect( options.config.validate.params.id ).not.toBeUndefined();
-    } );
+    expect( options.method ).toBe( 'DELETE' );
+    expect( options.path ).toBe( `${routes.endpoint}/{id}` );
+    expect( options.handler ).not.toBe( undefined );
+    expect( options.config.validate.params.id ).not.toBe( undefined );
+  } );
 } );
