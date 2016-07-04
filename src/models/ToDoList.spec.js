@@ -1,4 +1,3 @@
-import * as Q from 'q';
 import { ToDoList } from './ToDoList';
 
 
@@ -10,7 +9,7 @@ describe( 'Model: ToDoList', () => {
 
   beforeEach( () => {
     model = new ToDoList();
-    spyOn( model.ToDo, 'findBy' ).and.returnValue( Q.when( {} ) );
+    spyOn( model.ToDo, 'findBy' ).and.returnValue( Promise.resolve( {} ) );
   } );
 
   it( 'should be defined and inherit from BaseModelRDMS', () => {
@@ -28,7 +27,7 @@ describe( 'Model: ToDoList', () => {
 
   describe( 'findByIdWithToDos() method', () => {
     it( 'should return a ToDoList and all its ToDos()', ( done ) => {
-      spyOn( model, 'findById' ).and.returnValue( Q.when( [{}] ) );
+      spyOn( model, 'findById' ).and.returnValue( Promise.resolve( [{}] ) );
       const id = 1;
 
       model.findByIdWithToDos( id ).then( () => {
@@ -39,7 +38,7 @@ describe( 'Model: ToDoList', () => {
     } );
 
     it( 'should return an empty array if ID is not found', ( done ) => {
-      spyOn( model, 'findById' ).and.returnValue( Q.when( [] ) );
+      spyOn( model, 'findById' ).and.returnValue( Promise.resolve( [] ) );
       const id = 'xxx';
 
       model.findByIdWithToDos( id ).then( ( response ) => {

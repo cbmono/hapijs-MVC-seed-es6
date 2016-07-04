@@ -1,4 +1,3 @@
-import * as Q from 'q';
 import { ToDosController } from './todos.controller';
 
 
@@ -11,11 +10,11 @@ describe( 'Controller: ToDo\'s', () => {
   beforeEach( () => {
     controller = new ToDosController();
 
-    spyOn( controller.ToDo, 'findAll' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDo, 'findById' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDo, 'save' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDo, 'update' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDo, 'del' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.ToDo, 'findAll' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDo, 'findById' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDo, 'save' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDo, 'update' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDo, 'del' ).and.returnValue( Promise.resolve( {} ) );
   } );
 
   it( 'should be defined and inherit from BaseController', () => {

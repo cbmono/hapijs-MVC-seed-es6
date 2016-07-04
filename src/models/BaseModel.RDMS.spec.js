@@ -1,4 +1,3 @@
-import * as Q from 'q';
 import { BaseModelRDMS } from './BaseModel.RDMS';
 
 
@@ -46,8 +45,8 @@ describe( 'Model: BaseModelRDMS', () => {
         whereIn : () => {},
       } ) ) )();
 
-      spyOn( knexRes, 'where' ).and.returnValue( Q.when( {} ) );
-      spyOn( knexRes, 'whereIn' ).and.returnValue( Q.when( {} ) );
+      spyOn( knexRes, 'where' ).and.returnValue( Promise.resolve( {} ) );
+      spyOn( knexRes, 'whereIn' ).and.returnValue( Promise.resolve( {} ) );
     } );
 
     it( 'should expose findAll()', () => {
@@ -72,7 +71,7 @@ describe( 'Model: BaseModelRDMS', () => {
     it( 'should expose findById()', () => {
       const id = 1;
 
-      spyOn( model, 'findBy' ).and.returnValue( Q.when( {} ) );
+      spyOn( model, 'findBy' ).and.returnValue( Promise.resolve( {} ) );
       model.findById( id );
 
       expect( model.findBy ).toHaveBeenCalledWith( 'id', id );
@@ -89,7 +88,7 @@ describe( 'Model: BaseModelRDMS', () => {
     beforeEach( () => {
       spyOn( model, 'dbConfig' ).and.returnValue( { client : 'pg' } );
       spyOn( model, 'now' ).and.returnValue( 'NOW()' );
-      spyOn( model, 'findById' ).and.returnValue( Q.when( {} ) );
+      spyOn( model, 'findById' ).and.returnValue( Promise.resolve( {} ) );
 
       knexRes = ( spyOn( model, 'Knex' ).and.returnValue( ( {
         insert : () => { returning : () => {}; },
@@ -97,10 +96,10 @@ describe( 'Model: BaseModelRDMS', () => {
       } ) ) )();
 
       insertRes = ( spyOn( knexRes, 'insert' ).and.returnValue( { returning : () => {} } ) )();
-      spyOn( insertRes, 'returning' ).and.returnValue( Q.when( {} ) );
+      spyOn( insertRes, 'returning' ).and.returnValue( Promise.resolve( {} ) );
 
       updateRes = ( spyOn( knexRes, 'update' ).and.returnValue( { whereIn : () => {} } ) )();
-      spyOn( updateRes, 'whereIn' ).and.returnValue( Q.when( {} ) );
+      spyOn( updateRes, 'whereIn' ).and.returnValue( Promise.resolve( {} ) );
     } );
 
     describe( 'should expose save()', () => {
@@ -176,7 +175,7 @@ describe( 'Model: BaseModelRDMS', () => {
       } ) ) )();
 
       deleteRes = ( spyOn( knexRes, 'del' ).and.returnValue( { whereIn : () => {} } ) )();
-      spyOn( deleteRes, 'whereIn' ).and.returnValue( Q.when( {} ) );
+      spyOn( deleteRes, 'whereIn' ).and.returnValue( Promise.resolve( {} ) );
     } );
 
     it( 'should expose remove()', () => {
@@ -188,7 +187,7 @@ describe( 'Model: BaseModelRDMS', () => {
     } );
 
     it( 'should expose del()', () => {
-      spyOn( model, 'remove' ).and.returnValue( Q.when( {} ) );
+      spyOn( model, 'remove' ).and.returnValue( Promise.resolve( {} ) );
       model.del( id );
 
       expect( model.remove ).toHaveBeenCalledWith( id );

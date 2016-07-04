@@ -1,4 +1,3 @@
-import * as Q from 'q';
 import { ToDoListsController } from './todo_lists.controller';
 
 
@@ -11,12 +10,12 @@ describe( 'Controller: ToDo Lists', () => {
   beforeEach( () => {
     controller = new ToDoListsController();
 
-    spyOn( controller.ToDoList, 'findAll' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDoList, 'findById' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDoList, 'findByIdWithToDos' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDoList, 'save' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDoList, 'update' ).and.returnValue( Q.when( {} ) );
-    spyOn( controller.ToDoList, 'del' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.ToDoList, 'findAll' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDoList, 'findById' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDoList, 'findByIdWithToDos' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDoList, 'save' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDoList, 'update' ).and.returnValue( Promise.resolve( {} ) );
+    spyOn( controller.ToDoList, 'del' ).and.returnValue( Promise.resolve( {} ) );
   } );
 
   it( 'should be defined and inherit from BaseController', () => {

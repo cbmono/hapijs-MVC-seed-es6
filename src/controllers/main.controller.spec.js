@@ -1,4 +1,3 @@
-import * as Q from 'q';
 import { MainController } from './main.controller';
 
 
@@ -10,7 +9,7 @@ describe( 'Controller: Main', () => {
 
   beforeEach( () => {
     controller = new MainController();
-    spyOn( controller.Main, 'doHealthcheck' ).and.returnValue( Q.when( {} ) );
+    spyOn( controller.Main, 'doHealthcheck' ).and.returnValue( Promise.resolve( {} ) );
   } );
 
   it( 'should be defined', () => {
