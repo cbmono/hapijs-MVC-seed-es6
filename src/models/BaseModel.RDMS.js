@@ -39,6 +39,9 @@ export class BaseModelRDMS {
     if ( !tableName ) {
       throw new Error( 'DB table name undefined' );
     }
+    if ( new.target === BaseModelRDMS ) {
+      throw Error( 'BaseModelRDMS is an abstract class and cannot be instantiated directly' );
+    }
 
     this.Knex = Knex;
     this.dbConfig = config.get( 'database' );

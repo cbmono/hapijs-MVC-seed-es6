@@ -6,6 +6,7 @@ import { BaseRoutes } from './base.routes';
 //
 describe( 'Routes: Base', () => {
   let routes;
+  let ExtendedRoutes;
   const endpoint = 'my-endpoint';
   const controller = new class MockedController {
     index() {}
@@ -16,7 +17,13 @@ describe( 'Routes: Base', () => {
   };
 
   beforeEach( () => {
-    routes = new BaseRoutes( controller, endpoint );
+    ExtendedRoutes = class ext extends BaseRoutes {};
+    routes = new ExtendedRoutes( controller, endpoint );
+  } );
+
+  it( 'should not instantiated directly', () => {
+    const createBase = () => new BaseRoutes( controller, endpoint );
+    expect( createBase ).toThrow( Error( 'BaseRoutes is an abstract class and cannot be instantiated directly' ) );
   } );
 
   it( 'should be defined', () => {
@@ -28,7 +35,7 @@ describe( 'Routes: Base', () => {
 
   it( 'should throw on empty controller', () => {
     try {
-      new BaseRoutes();
+      new ExtendedRoutes();
     }
     catch ( exc ) {
       expect( exc.name ).toBe( 'Error' );
@@ -40,7 +47,7 @@ describe( 'Routes: Base', () => {
     try {
       const emptyCtrl = new class TempController {};
 
-      routes = new BaseRoutes( emptyCtrl );
+      routes = new ExtendedRoutes( emptyCtrl );
       routes.index();
     }
     catch ( exc ) {

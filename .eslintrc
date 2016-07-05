@@ -12,6 +12,7 @@
             2,
             "always"
         ],
+        "no-new": 0,
         "no-restricted-syntax": 0,
         "newline-per-chained-call": 0,
         "new-cap": 0,

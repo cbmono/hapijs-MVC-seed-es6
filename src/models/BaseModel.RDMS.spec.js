@@ -6,9 +6,15 @@ import { BaseModelRDMS } from './BaseModel.RDMS';
 //
 describe( 'Model: BaseModelRDMS', () => {
   let model;
+  let ExtentedClass;
 
   beforeEach( () => {
-    model = new BaseModelRDMS( 'EMPTY_TABLE' );
+    ExtentedClass = class ext extends BaseModelRDMS {};
+    model = new ExtentedClass( 'EMPTY_TABLE' );
+  } );
+
+  it( 'should not instantiated directly', () => {
+    expect( () => new BaseModelRDMS( 'DBTABLENAME' ) ).toThrow( Error( 'BaseModelRDMS is an abstract class and cannot be instantiated directly' ) );
   } );
 
   it( 'should be defined and have access to Knex', () => {
@@ -20,7 +26,7 @@ describe( 'Model: BaseModelRDMS', () => {
   it( 'should properly set the DB table name and timestamp option', () => {
     const tableName = 'hello_world';
     const timestamp = false;
-    const baseModel = new BaseModelRDMS( tableName, timestamp );
+    const baseModel = new ExtentedClass( tableName, timestamp );
 
     expect( baseModel.tableName ).toBe( tableName );
     expect( baseModel.setTimestamps ).toBe( timestamp );
@@ -28,7 +34,7 @@ describe( 'Model: BaseModelRDMS', () => {
 
   it( 'should throw on empty DB table name', () => {
     try {
-      new BaseModelRDMS();
+      new ExtentedClass();
     }
     catch ( exc ) {
       expect( exc.name ).toBe( 'Error' );
@@ -90,6 +96,9 @@ describe( 'Model: BaseModelRDMS', () => {
       spyOn( model, 'now' ).and.returnValue( 'NOW()' );
       spyOn( model, 'findById' ).and.returnValue( Promise.resolve( {} ) );
 
+      /* eslint no-unused-expressions: 0*/
+      /* eslint no-unused-labels: 0*/
+      /* eslint no-labels: 0*/
       knexRes = ( spyOn( model, 'Knex' ).and.returnValue( ( {
         insert : () => { returning : () => {}; },
         update : () => { whereIn: () => {}; },

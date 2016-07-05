@@ -34,6 +34,9 @@ export class BaseRoutes {
     if ( !controller ) {
       throw new Error( 'BaseRoute: controller is undefined' );
     }
+    if ( new.target === BaseRoutes ) {
+      throw Error( 'BaseRoutes is an abstract class and cannot be instantiated directly' );
+    }
 
     this.joi = joi;
     this.endpoint = endpoint;

@@ -21,9 +21,7 @@ export class ToDosController extends BaseController {
    * Retrieve the list of all ToDo's
    */
   index( request, reply ) {
-    this.ToDo.findAll()
-      .then( ( response ) => reply( response ) )
-      .catch( ( err ) => reply( this.Boom.wrap( err ) ) );
+    this.handleRequest( this.ToDo.findAll(), reply );
   }
 
   /**
@@ -31,10 +29,7 @@ export class ToDosController extends BaseController {
    */
   view( request, reply ) {
     const { id } = request.params;
-
-    this.ToDo.findById( id )
-      .then( ( response ) => this.replyOnResponse( response, reply ) )
-      .catch( ( err ) => reply( this.Boom.wrap( err ) ) );
+    this.handleRequest( this.ToDo.findById( id ), reply );
   }
 
   /**
@@ -42,10 +37,7 @@ export class ToDosController extends BaseController {
    */
   create( request, reply ) {
     const data = request.payload;
-
-    this.ToDo.save( data )
-      .then( ( response ) => reply( response ) )
-      .catch( ( err ) => reply( this.Boom.wrap( err ) ) );
+    this.handleRequest( this.ToDo.save( data ), reply );
   }
 
   /**
@@ -54,10 +46,7 @@ export class ToDosController extends BaseController {
   update( request, reply ) {
     const { id } = request.params;
     const data = request.payload;
-
-    this.ToDo.update( id, data )
-      .then( ( response ) => this.replyOnResponse( response, reply ) )
-      .catch( ( err ) => reply( this.Boom.wrap( err ) ) );
+    this.handleRequest( this.ToDo.update( id, data ), reply );
   }
 
   /**
@@ -65,9 +54,6 @@ export class ToDosController extends BaseController {
    */
   remove( request, reply ) {
     const { id } = request.params;
-
-    this.ToDo.del( id )
-      .then( ( response ) => this.replyOnResponse( response, reply ) )
-      .catch( ( err ) => reply( this.Boom.wrap( err ) ) );
+    this.handleRequest( this.ToDo.del( id ), reply );
   }
 }
