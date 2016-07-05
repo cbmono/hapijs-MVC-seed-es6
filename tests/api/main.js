@@ -1,5 +1,6 @@
 import config from 'config';
 import testUtil from '../testUtility';
+import fetch from 'node-fetch' ;
 
 //
 // Tests
