@@ -1,54 +1,65 @@
-import { BaseController } from './base.controller'
+import { BaseController } from './base.controller';
 
 
 //
 // Tests
 //
-describe('Controller: Base', () => {
-  let controller
-    , notFoundMsg = 'Not Found'
-    , foo = { reply: (res) => {}}
+describe( 'Controller: Base', () => {
+  let controller;
+  const notFoundMsg = 'Not Found';
+  const foo = { reply : ( res ) => {} };
 
-  beforeEach(() => {
-    controller = new BaseController(notFoundMsg)
+  beforeEach( () => {
+    controller = new class _base extends BaseController {}( notFoundMsg );
 
-    spyOn(foo, 'reply')
-    spyOn(controller.Boom, 'notFound')
-  })
+    spyOn( foo, 'reply' );
+    spyOn( controller.Boom, 'notFound' );
+  } );
 
-  it('should be defined', () => {
-    expect(controller).not.toBe(undefined)
-    expect(controller.Boom).not.toBe(undefined)
-    expect(controller.notFoundMsg).toBe(notFoundMsg)
-  })
+  it( 'should not instantiated directly', () => {
+    const createBase = () => new BaseController();
+    expect( createBase ).toThrow( Error( 'BaseController is an abstract class and cannot be instantiated directly' ) );
+  } );
 
-  it('should have empty @notFoundMsg', () => {
-    let ctrl = new BaseController()
+  it( 'should be defined', () => {
+    expect( controller ).not.toBe( undefined );
+    expect( controller.Boom ).not.toBe( undefined );
+    expect( controller.notFoundMsg ).toBe( notFoundMsg );
+  } );
 
-    expect(ctrl.notFoundMsg).toBe('')
-  })
+  it( 'should have empty @notFoundMsg', () => {
+    const ctrl = new class _base extends BaseController {};
 
-  describe('replyOnResponse()', () => {
-    it('should accept an array as response', () => {
-      let response = [{ msg: 'hello' }]
+    expect( ctrl.notFoundMsg ).toBe( '' );
+  } );
 
-      controller.replyOnResponse(response, foo.reply)
-      expect(foo.reply).toHaveBeenCalledWith(response)
-    })
+  describe( 'handleRequest()', () => {
+    it( 'should accept an array as response', async done => {
+      const response = [{ msg : 'hello' }];
+      const func = () => Promise.resolve( response );
 
-    it('should accept a positive integer as response', () => {
-      let response = 1
+      await controller.handleRequest( func(), foo.reply );
+      expect( foo.reply ).toHaveBeenCalledWith( response );
+      done();
+    } );
 
-      controller.replyOnResponse(response, foo.reply)
-      expect(foo.reply).toHaveBeenCalledWith(response)
-    })
+    it( 'should accept a positive integer as response', async done => {
+      const response = 1;
+      const func = () => Promise.resolve( response );
 
-    it('should return Not Found', () => {
-      let response = 'invalid response'
+      await controller.handleRequest( func(), foo.reply );
+      expect( foo.reply ).toHaveBeenCalledWith( response );
+      done();
+    } );
 
-      controller.replyOnResponse(response, foo.reply)
-      expect(foo.reply).toHaveBeenCalled()
-      expect(controller.Boom.notFound).toHaveBeenCalledWith(notFoundMsg)
-    })
-  })
-})
+    it( 'should return Not Found', async done => {
+      const response = 'invalid response';
+      const func = () => Promise.resolve( response );
+
+      await controller.handleRequest( func(), foo.reply );
+      expect( foo.reply ).toHaveBeenCalled();
+      expect( controller.Boom.notFound ).toHaveBeenCalledWith( notFoundMsg );
+      done();
+    } );
+  } );
+} );
