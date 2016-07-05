@@ -33,27 +33,33 @@ describe( 'Controller: Base', () => {
     expect( ctrl.notFoundMsg ).toBe( '' );
   } );
 
-  describe( 'replyOnResponse()', () => {
-    it( 'should accept an array as response', () => {
+  describe( 'handleRequest()', () => {
+    it( 'should accept an array as response', async done => {
       const response = [{ msg : 'hello' }];
+      const func = () => Promise.resolve( response );
 
-      controller.replyOnResponse( response, foo.reply );
+      await controller.handleRequest( func(), foo.reply );
       expect( foo.reply ).toHaveBeenCalledWith( response );
+      done();
     } );
 
-    it( 'should accept a positive integer as response', () => {
+    it( 'should accept a positive integer as response', async done => {
       const response = 1;
+      const func = () => Promise.resolve( response );
 
-      controller.replyOnResponse( response, foo.reply );
+      await controller.handleRequest( func(), foo.reply );
       expect( foo.reply ).toHaveBeenCalledWith( response );
+      done();
     } );
 
-    it( 'should return Not Found', () => {
+    it( 'should return Not Found', async done => {
       const response = 'invalid response';
+      const func = () => Promise.resolve( response );
 
-      controller.replyOnResponse( response, foo.reply );
+      await controller.handleRequest( func(), foo.reply );
       expect( foo.reply ).toHaveBeenCalled();
       expect( controller.Boom.notFound ).toHaveBeenCalledWith( notFoundMsg );
+      done();
     } );
   } );
 } );

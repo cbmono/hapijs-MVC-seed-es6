@@ -12,8 +12,6 @@ import Boom from 'boom';
  ******************************************/
 export class BaseController {
 
-  static reportError = Boom;
-
   /**
    * Constructor
    *
@@ -23,9 +21,8 @@ export class BaseController {
     if ( new.target === BaseController ) {
       throw Error( 'BaseController is an abstract class and cannot be instantiated directly' );
     }
-    this.Boom = Boom;
     this.notFoundMsg = notFoundMsg;
-
+    this.Boom = Boom;
     // Initialise more shared code here ...
   }
 
@@ -33,16 +30,28 @@ export class BaseController {
    * Run reply() if response is not undefined.
    * Otherwise reply 404
    *
-   * @param  {mixed} response
-   * @param  {function} reply
+   * @param  {Function call} Knex call
+   * @param  {Function} hapi's reply
    *         Hapi default callback
    */
-  replyOnResponse( response, reply ) {
-    if ( ( Array.isArray( response ) && response.length ) || response > 0 ) {
-      reply( response );
+  async handleRequest( func, reply ) {
+    try {
+      const response = await func;
+
+      if ( ( Array.isArray( response ) && response.length ) || response > 0 ) {
+        reply( response );
+      }
+      else {
+        throw Error( 'Not Found' );
+      }
     }
-    else {
-      reply( this.Boom.notFound( this.notFoundMsg ) );
+    catch ( err ) {
+      if ( err.message === 'Not Found' ) {
+        reply( this.Boom.notFound( this.notFoundMsg ) );
+      }
+      else {
+        reply( this.Boom.wrap( err ) );
+      }
     }
   }
 
