@@ -1,8 +1,8 @@
-import config  from 'config'
-import Knex  from '../db'
+import config from 'config';
+import Knex from '../db';
 
 
-/******************************************
+/** ****************************************
  *
  * Base Model for Relational Databases using Knex.js
  *
@@ -35,15 +35,18 @@ export class BaseModelRDMS {
    *        Option to decide whether to update the fields `created_at`
    *        and `updated_at` on save() and update()
    */
-  constructor(tableName, setTimestamps = true) {
-    if (!tableName) {
-      throw new Error('DB table name undefined')
+  constructor( tableName, setTimestamps = true ) {
+    if ( !tableName ) {
+      throw new Error( 'DB table name undefined' );
+    }
+    if ( new.target === BaseModelRDMS ) {
+      throw Error( 'BaseModelRDMS is an abstract class and cannot be instantiated directly' );
     }
 
-    this.Knex = Knex
-    this.dbConfig = config.get('database')
-    this.tableName = tableName
-    this.setTimestamps = setTimestamps
+    this.Knex = Knex;
+    this.dbConfig = config.get( 'database' );
+    this.tableName = tableName;
+    this.setTimestamps = setTimestamps;
   }
 
   /**
@@ -52,7 +55,7 @@ export class BaseModelRDMS {
    * @return {promise}
    */
   findAll() {
-    return this.Knex(this.tableName)
+    return this.Knex( this.tableName );
   }
 
   /**
@@ -64,12 +67,12 @@ export class BaseModelRDMS {
    * @return {promise}
    *         Contains an array with all results
    */
-  findBy(field, value) {
-    if (Array.isArray(value)) {
-      return this.Knex(this.tableName).whereIn(field, value)
+  findBy( field, value ) {
+    if ( Array.isArray( value ) ) {
+      return this.Knex( this.tableName ).whereIn( field, value );
     }
 
-    return this.Knex(this.tableName).where(field, value)
+    return this.Knex( this.tableName ).where( field, value );
   }
 
   /**
@@ -79,8 +82,8 @@ export class BaseModelRDMS {
    * @return {promise}
    *         Contains an array with all results
    */
-  findById(id) {
-    return this.findBy('id', id)
+  findById( id ) {
+    return this.findBy( 'id', id );
   }
 
   /**
@@ -92,19 +95,24 @@ export class BaseModelRDMS {
    * @return {promise}
    *        Contains an array with all inserted objects (data)
    */
-  save(data) {
-    if (this.setTimestamps) {
-      data = this._setTimestamps(data)
+  save( data ) {
+    let newData = data;
+
+    if ( this.setTimestamps ) {
+      const timestamps = this[ Symbol.for( 'getTimestamps' ) ]();
+      newData = {
+        ...newData,
+        ...timestamps,
+      };
     }
+    const response = this.Knex( this.tableName ).insert( newData );
 
-    let response = this.Knex(this.tableName).insert(data)
-
-    if (this.dbConfig.client === 'pg') {
+    if ( this.dbConfig.client === 'pg' ) {
       // Return all inserted rows in case of Postgres
-      return response.returning('*')
+      return response.returning( '*' );
     }
 
-    return response
+    return response;
   }
 
   /**
@@ -117,15 +125,22 @@ export class BaseModelRDMS {
    * @return {promise}
    *         Contains an object with the updated data
    */
-  update(id, data) {
-    if (this.setTimestamps) {
-      data = this._setTimestamps(data, false)
+  update( id, data ) {
+    let newData = data;
+
+    if ( this.setTimestamps ) {
+      const timestamps = this[ Symbol.for( 'getTimestamps' ) ]();
+      newData = {
+        ...newData,
+        ...timestamps,
+      };
+      delete newData.created_at;
     }
 
-    return this.Knex(this.tableName)
-      .update(data)
-      .whereIn('id', id)
-      .then(() => this.findById(id))
+    return this.Knex( this.tableName )
+      .update( newData )
+      .whereIn( 'id', id )
+      .then( () => this.findById( id ) );
   }
 
   /**
@@ -136,10 +151,10 @@ export class BaseModelRDMS {
    * @return {promise}
    *         Contains an integer with the amount of deleted entries
    */
-  remove(id) {
-    return this.Knex(this.tableName)
+  remove( id ) {
+    return this.Knex( this.tableName )
       .del()
-      .whereIn('id', id)
+      .whereIn( 'id', id );
   }
 
   /**
@@ -151,8 +166,8 @@ export class BaseModelRDMS {
    * @return {promise}
    *         Contains an integer with the amount of deleted entries
    */
-  del(id) {
-    return this.remove(id)
+  del( id ) {
+    return this.remove( id );
   }
 
   /**
@@ -161,38 +176,31 @@ export class BaseModelRDMS {
    * @return {string}
    */
   now() {
-    if (this.dbConfig.client === 'sqlite3') {
-      return this.Knex.raw(`date('now')`)
+    if ( this.dbConfig.client === 'sqlite3' ) {
+      return this.Knex.raw( 'date(\'now\')' );
     }
 
-    return this.Knex.raw('NOW()')
+    return this.Knex.raw( 'NOW()' );
   }
 
 
-  /******************************************
+  /** ****************************************
    *
    * Private methods
    *
    ******************************************/
 
   /**
-   * Set the current timestamp for the fields `created_at` and `updated_at`
+   * Returns an object with the current timestamp for the fields `created_at` and `updated_at`
    * `created_at` and `updated_at` will be added to `data` if not present.
    *
-   * @param {object} data
-   * @param {boolean} setCreatedAt [optional]
-   *        Omit setting `created_at` (ie. in case of updates)
    * @return {object}
    */
-  _setTimestamps(data, setCreatedAt = true) {
-    let now = this.now()
-    let newData = _.cloneDeep(data)
-
-    if (setCreatedAt) {
-      newData.created_at = now
-    }
-
-    newData.updated_at = now
-    return newData
+  [ Symbol.for( 'getTimestamps' ) ]() {
+    const now = this.now();
+    return {
+      updated_at : now,
+      created_at : now,
+    };
   }
 }

@@ -1,44 +1,44 @@
-import { assertRoutes } from '../../tests/helpers'
-import * as routes  from './todos.routes'
+import { assertRoutes } from '../../tests/helpers';
+import * as routes from './todos.routes';
 
 
 //
 // Tests
 //
-describe(`Routes: ToDo's`, () => {
+describe( 'Routes: ToDo\'s', () => {
 
-  it('should expose GET /todos', () => {
-    let path = '/todos'
-      , method = 'GET'
+  it( 'should expose GET /todos', () => {
+    const path = '/todos';
+    const method = 'GET';
 
-    assertRoutes(routes.default, path, method)
-  })
+    assertRoutes( routes.default, path, method );
+  } );
 
-  it('should expose GET /todos/{id}', () => {
-    let path = '/todos/{id}'
-      , method = 'GET'
+  it( 'should expose GET /todos/{id}', () => {
+    const path = '/todos/{id}';
+    const method = 'GET';
 
-    assertRoutes(routes.default, path, method, true)
-  })
+    assertRoutes( routes.default, path, method, true );
+  } );
 
-  it('should expose POST /todos', () => {
-    let path = '/todos'
-      , method = 'POST'
+  it( 'should expose POST /todos', () => {
+    const path = '/todos';
+    const method = 'POST';
 
-    assertRoutes(routes.default, path, method, false, true)
-  })
+    assertRoutes( routes.default, path, method, false, true );
+  } );
 
-  it('should expose PUT /todos/{id}', () => {
-    let path = '/todos/{id}'
-      , method = 'PUT'
+  it( 'should expose PUT /todos/{id}', () => {
+    const path = '/todos/{id}';
+    const method = 'PUT';
 
-    assertRoutes(routes.default, path, method, true, true)
-  })
+    assertRoutes( routes.default, path, method, true, true );
+  } );
 
-  it('should expose DELETE /todos/{1}', () => {
-    let path = '/todos/{id}'
-      , method = 'DELETE'
+  it( 'should expose DELETE /todos/{1}', () => {
+    const path = '/todos/{id}';
+    const method = 'DELETE';
 
-    assertRoutes(routes.default, path, method, true)
-  })
-})
+    assertRoutes( routes.default, path, method, true );
+  } );
+} );
