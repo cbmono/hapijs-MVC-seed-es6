@@ -1,5 +1,3 @@
-'use static';
-
 //
 // Dependencies
 //

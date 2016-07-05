@@ -2,7 +2,7 @@ module.exports = {
   //
   // API url
   //
-  apiUrl: 'https://api.my-domain.com'
+  apiUrl: 'https://api.my-domain.com',
 
   //
   // Database

@@ -1,8 +1,9 @@
 # --------------------
 # App Files
 # --------------------
+config/dev.js
+logs/
 tests/coverage/
-local.js
 
 # --------------------
 # Sqlite3
@@ -33,4 +34,3 @@ Icon
 .nodemonignore
 npm-debug.log
 node_modules/
-logs/
