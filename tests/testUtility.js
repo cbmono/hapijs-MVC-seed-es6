@@ -4,12 +4,12 @@
  * @param {Function} An anonymous function that wraps the tests
  * @param {Function} jasmine's done
  */
-export default async ( tests, done ) => {
+export default async (tests, done) => {
   try {
     await tests();
   }
-  catch ( e ) {
-    console.error( e );
+  catch (e) {
+    console.error(e);
   }
   finally {
     done();

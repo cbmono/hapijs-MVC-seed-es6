@@ -11,7 +11,7 @@ const routes = new class TodoListsRoutes extends BaseRoutes {
    */
   constructor() {
     const endpointName = '/todo-lists';
-    super( new ToDoListsController(), endpointName );
+    super(new ToDoListsController(), endpointName);
   }
 
   /**
@@ -26,7 +26,7 @@ const routes = new class TodoListsRoutes extends BaseRoutes {
     // Overwrite attributes
     route.path += '/todos';
     route.config.description = 'Retrieve a ToDo list and all its ToDo\'s';
-    route.handler = this.controller.viewAll.bind( this.controller );
+    route.handler = this.controller.viewAll.bind(this.controller);
 
     return route;
   }
@@ -45,7 +45,7 @@ const routes = new class TodoListsRoutes extends BaseRoutes {
 
     // Add validations for POST payload
     route.config.validate.payload = {
-      name : this.joi.string().required().description( 'ToDo list name' ),
+      name : this.joi.string().required().description('ToDo list name'),
     };
 
     return route;
@@ -65,7 +65,7 @@ const routes = new class TodoListsRoutes extends BaseRoutes {
 
     // Add validations for POST payload
     route.config.validate.payload = {
-      name : this.joi.string().description( 'ToDo list name' ),
+      name : this.joi.string().description('ToDo list name'),
     };
 
     return route;

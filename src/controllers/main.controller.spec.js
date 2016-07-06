@@ -4,20 +4,20 @@ import { MainController } from './main.controller';
 //
 // Tests
 //
-describe( 'Controller: Main', () => {
+describe('Controller: Main', () => {
   let controller;
 
-  beforeEach( () => {
+  beforeEach(() => {
     controller = new MainController();
-    spyOn( controller.Main, 'doHealthcheck' ).and.returnValue( Promise.resolve( {} ) );
-  } );
+    spyOn(controller.Main, 'doHealthcheck').and.returnValue(Promise.resolve({}));
+  });
 
-  it( 'should be defined', () => {
-    expect( controller ).not.toBe( undefined );
-  } );
+  it('should be defined', () => {
+    expect(controller).not.toBe(undefined);
+  });
 
-  it( 'should expose healthcheck()', () => {
+  it('should expose healthcheck()', () => {
     controller.healthcheck();
-    expect( controller.Main.doHealthcheck ).toHaveBeenCalled();
-  } );
-} );
+    expect(controller.Main.doHealthcheck).toHaveBeenCalled();
+  });
+});

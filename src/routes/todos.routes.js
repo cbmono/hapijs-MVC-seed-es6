@@ -12,7 +12,7 @@ const routes = new class TodosRoutes extends BaseRoutes {
    */
   constructor() {
     const endpointName = '/todos';
-    super( new ToDosController(), endpointName );
+    super(new ToDosController(), endpointName);
   }
 
   /**
@@ -30,10 +30,10 @@ const routes = new class TodosRoutes extends BaseRoutes {
     // Add validations for POST payload
     route.config.validate.payload = {
       todo_list_id : this.joi.number().integer().required()
-        .description( 'Reference to ToDo list' ),
+        .description('Reference to ToDo list'),
 
       name : this.joi.string().required()
-        .description( 'ToDo name' ),
+        .description('ToDo name'),
     };
 
     return route;
@@ -54,7 +54,7 @@ const routes = new class TodosRoutes extends BaseRoutes {
     // Add validations for POST payload
     route.config.validate.payload = {
       name : this.joi.string().required()
-        .description( 'ToDo name' ),
+        .description('ToDo name'),
     };
 
     return route;

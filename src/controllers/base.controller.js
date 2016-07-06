@@ -17,9 +17,9 @@ export class BaseController {
    *
    * @param {stirng} notFoundMsg [optional]
    */
-  constructor( notFoundMsg = '' ) {
-    if ( new.target === BaseController ) {
-      throw Error( 'BaseController is an abstract class and cannot be instantiated directly' );
+  constructor(notFoundMsg = '') {
+    if (new.target === BaseController) {
+      throw Error('BaseController is an abstract class and cannot be instantiated directly');
     }
     this.notFoundMsg = notFoundMsg;
     this.Boom = Boom;
@@ -34,23 +34,23 @@ export class BaseController {
    * @param  {Function} hapi's reply
    *         Hapi default callback
    */
-  async handleRequest( func, reply ) {
+  async handleRequest(func, reply) {
     try {
       const response = await func;
 
-      if ( ( Array.isArray( response ) && response.length ) || response > 0 ) {
-        reply( response );
+      if ((Array.isArray(response) && response.length) || response > 0) {
+        reply(response);
       }
       else {
-        throw Error( 'Not Found' );
+        throw Error('Not Found');
       }
     }
-    catch ( err ) {
-      if ( err.message === 'Not Found' ) {
-        reply( this.Boom.notFound( this.notFoundMsg ) );
+    catch (err) {
+      if (err.message === 'Not Found') {
+        reply(this.Boom.notFound(this.notFoundMsg));
       }
       else {
-        reply( this.Boom.wrap( err ) );
+        reply(this.Boom.wrap(err));
       }
     }
   }

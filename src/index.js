@@ -18,7 +18,7 @@ GLOBAL.log = log;    // Used instead of console()
 // Create server
 //
 const server = new Hapi.Server();
-server.connection( config.get( 'server' ) );
+server.connection(config.get('server'));
 
 
 /**
@@ -28,36 +28,35 @@ server.connection( config.get( 'server' ) );
  *
  */
 const registerRoute = file => {
-  const routes = require( `./routes/${file}` ).default;
-  routes.forEach( route => server.route( route ) );
+  const routes = require(`./routes/${file}`).default;
+  routes.forEach(route => server.route(route));
 };
 
 //
 // Register Hapi plugin's
 //
-server.register( pluginsConfig,
+server.register(pluginsConfig,
 
   err => {
-    if ( err ) throw err;
+    if (err) throw err;
 
     // Load routes from ./routes
-    const routesNormalizedPath = path.join( __dirname, 'routes' );
+    const routesNormalizedPath = path.join(__dirname, 'routes');
 
-    fs.readdirSync( routesNormalizedPath )
-      .filter( file => !file.includes( '.spec' ) )
-      .filter( file => file !== 'base.routes.js' )
-      .forEach( registerRoute );
+    fs.readdirSync(routesNormalizedPath)
+      .filter(file => !file.includes('.spec') || file !== 'base.routes.js')
+      .forEach(registerRoute);
 
     //
     // Start the server
     //
-    server.start( error => {
-      if ( error ) throw error;
+    server.start(error => {
+      if (error) throw error;
 
-      log.info( {
+      log.info({
         'Server running at' : server.info.uri,
         'NODE_ENV'          : process.env.NODE_ENV,
-      } );
-    } );
+      });
+    });
   }
 );

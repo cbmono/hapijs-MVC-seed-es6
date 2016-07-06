@@ -11,6 +11,6 @@ export class ToDo extends BaseModelRDMS {
    */
   constructor() {
     const tableName = 'todos';
-    super( tableName );
+    super(tableName);
   }
 }

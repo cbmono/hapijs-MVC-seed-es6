@@ -5,22 +5,22 @@ import * as routes from './main.routes';
 //
 // Tests
 //
-describe( 'Routes: Main', () => {
+describe('Routes: Main', () => {
 
-  it( 'should expose GET /healthcheck', () => {
+  it('should expose GET /healthcheck', () => {
     const path = '/healthcheck';
     const method = 'GET';
 
-    assertRoutes( routes.default, path, method );
-  } );
+    assertRoutes(routes.default, path, method);
+  });
 
-  it( 'should expose GET /{param*}', () => {
+  it('should expose GET /{param*}', () => {
     const path = '/{param*}';
     const method = 'GET';
-    const route = _.find( routes.default, { path, method } );
+    const route = _.find(routes.default, { path, method });
 
-    expect( route.path ).toBe( path );
-    expect( route.method ).toBe( method );
-    expect( route.handler.directory.path ).toBe( './public' );
-  } );
-} );
+    expect(route.path).toBe(path);
+    expect(route.method).toBe(method);
+    expect(route.handler.directory.path).toBe('./public');
+  });
+});

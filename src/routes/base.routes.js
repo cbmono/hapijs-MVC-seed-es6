@@ -1,6 +1,8 @@
 import * as joi from 'joi';
 
 
+const validateControllerHandler = Symbol('validateControllerHandler');
+
 /** ****************************************
  *
  * Define a basic CRUD skeleton for all custom routes
@@ -30,12 +32,12 @@ export class BaseRoutes {
    * @param {string} endpoint [optional]
    *        End-point for the specific route, ie: /users/{user_id}/addresses/
    */
-  constructor( controller, endpoint = '' ) {
-    if ( !controller ) {
-      throw new Error( 'BaseRoute: controller is undefined' );
+  constructor(controller, endpoint = '') {
+    if (!controller) {
+      throw new Error('BaseRoute: controller is undefined');
     }
-    if ( new.target === BaseRoutes ) {
-      throw Error( 'BaseRoutes is an abstract class and cannot be instantiated directly' );
+    if (new.target === BaseRoutes) {
+      throw Error('BaseRoutes is an abstract class and cannot be instantiated directly');
     }
 
     this.joi = joi;
@@ -49,12 +51,12 @@ export class BaseRoutes {
    * @return {object}
    */
   index() {
-    this[ Symbol.for( 'validateControllerHandler' ) ]( 'index' );
+    this[validateControllerHandler]('index');
 
     return {
       method  : 'GET',
       path    : this.endpoint,
-      handler : this.controller.index.bind( this.controller ),
+      handler : this.controller.index.bind(this.controller),
       config  : {
         description : 'List all entries',
         tags        : ['public'],
@@ -68,18 +70,18 @@ export class BaseRoutes {
    * @return {object}
    */
   view() {
-    this[ Symbol.for( 'validateControllerHandler' ) ]( 'view' );
+    this[validateControllerHandler]('view');
 
     return {
       method  : 'GET',
       path    : `${this.endpoint}/{id}`,
-      handler : this.controller.view.bind( this.controller ),
+      handler : this.controller.view.bind(this.controller),
       config  : {
         description : 'Get an entry by ID',
         tags        : ['public'],
         validate    : {
           params : {
-            id : this.joi.number().integer().required().description( 'ID, primary key' ),
+            id : this.joi.number().integer().required().description('ID, primary key'),
           },
         },
       },
@@ -92,12 +94,12 @@ export class BaseRoutes {
    * @return {object}
    */
   create() {
-    this[ Symbol.for( 'validateControllerHandler' ) ]( 'create' );
+    this[validateControllerHandler]('create');
 
     return {
       method  : 'POST',
       path    : this.endpoint,
-      handler : this.controller.create.bind( this.controller ),
+      handler : this.controller.create.bind(this.controller),
       config  : {
         description : 'Add a new entry',
         tags        : ['public'],
@@ -114,12 +116,12 @@ export class BaseRoutes {
    * @return {object}
    */
   update() {
-    this[ Symbol.for( 'validateControllerHandler' ) ]( 'update' );
+    this[validateControllerHandler]('update');
 
     return {
       method  : 'PUT',
       path    : `${this.endpoint}/{id}`,
-      handler : this.controller.update.bind( this.controller ),
+      handler : this.controller.update.bind(this.controller),
       config  : {
         description : 'Update an existing entry',
         tags        : ['public'],
@@ -127,7 +129,7 @@ export class BaseRoutes {
           // Extend (or overwrite) in your own implementation
 
           params : {
-            id : this.joi.number().integer().required().description( 'ID, primary key' ),
+            id : this.joi.number().integer().required().description('ID, primary key'),
           },
         },
       },
@@ -140,18 +142,18 @@ export class BaseRoutes {
    * @return {object}
    */
   remove() {
-    this[ Symbol.for( 'validateControllerHandler' ) ]( 'remove' );
+    this[validateControllerHandler]('remove');
 
     return {
       method  : 'DELETE',
       path    : `${this.endpoint}/{id}`,
-      handler : this.controller.remove.bind( this.controller ),
+      handler : this.controller.remove.bind(this.controller),
       config  : {
         description : 'Delete an entry',
         tags        : ['public'],
         validate    : {
           params : {
-            id : this.joi.number().integer().required().description( 'ID, primary key' ),
+            id : this.joi.number().integer().required().description('ID, primary key'),
           },
         },
       },
@@ -166,9 +168,9 @@ export class BaseRoutes {
    *        In case controller handler is not a Function
    */
 
-  [ Symbol.for( 'validateControllerHandler' ) ]( handler ) {
-    if ( typeof this.controller[ handler ] !== 'function' ) {
-      throw new Error( 'BaseRoute: controller handler is undefined' );
+  [validateControllerHandler](handler) {
+    if (typeof this.controller[handler] !== 'function') {
+      throw new Error('BaseRoute: controller handler is undefined');
     }
   }
 }

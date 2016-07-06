@@ -1,12 +1,12 @@
-require( 'babel-polyfill' );
-require( 'babel-register' );
+require('babel-polyfill');
+require('babel-register');
 
 //
 // Dependencies
 //
-const path = require( 'path' );
-const glob = require( 'glob' );
-const gulp = require( 'gulp' );
+const path = require('path');
+const glob = require('glob');
+const gulp = require('gulp');
 
 //
 // Variables
@@ -16,8 +16,8 @@ const gulpTasksSrc = './tasks/**/gulp.*.js';
 //
 // Load Gulp Tasks
 //
-glob.sync( gulpTasksSrc )
-  .forEach( ( file ) => require( path.resolve( file ) ) );
+glob.sync(gulpTasksSrc)
+  .forEach((file) => require(path.resolve(file)));
 
 //
 // Default (gulp) task
@@ -25,7 +25,7 @@ glob.sync( gulpTasksSrc )
 //  * Lint Javascript files
 //  * Run local node server
 //  * Resatart on file changes
-gulp.task( 'default', [
+gulp.task('default', [
   'lint',
   'nodemon',
-] );
+]);

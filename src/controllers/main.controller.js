@@ -16,9 +16,9 @@ export class MainController {
   /**
    * Display the status of the application
    */
-  healthcheck( request, reply ) {
+  healthcheck(request, reply) {
     this.Main.doHealthcheck()
-      .then( reply )
-      .catch( reply );
+      .then(reply)
+      .catch(reply);
   }
 }

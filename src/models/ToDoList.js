@@ -12,7 +12,7 @@ export class ToDoList extends BaseModelRDMS {
    */
   constructor() {
     const tableName = 'todo_lists';
-    super( tableName );
+    super(tableName);
 
     this.ToDo = new ToDo();
   }
@@ -24,17 +24,17 @@ export class ToDoList extends BaseModelRDMS {
    * @return {promise}
    *         Contains an array with the ToDo List object and its ToDo's
    */
-  findByIdWithToDos( id ) {
-    return this.findById( id ).then( ( response ) => {
-      if ( response.length ) {
-        const responeArray = [...response];
-        return this.ToDo.findBy( 'todo_list_id', id ).then( todos => {
-          responeArray[ 0 ].todos = todos;
+  findByIdWithToDos(id) {
+    return this.findById(id).then((response) => {
+      if (response.length) {
+        return this.ToDo.findBy('todo_list_id', id).then(todos => {
+          /* eslint no-param-reassign: 0*/
+          response[0].todos = todos;
           return responeArray;
-        } );
+        });
       }
 
       return response;
-    } );
+    });
   }
 }

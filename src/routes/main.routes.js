@@ -11,7 +11,7 @@ const routes = new class MainRoutes extends BaseRoutes {
    * Constructor
    */
   constructor() {
-    super( new MainController() );
+    super(new MainController());
   }
 
   /**
@@ -23,7 +23,7 @@ const routes = new class MainRoutes extends BaseRoutes {
     return {
       method  : 'GET',
       path    : '/healthcheck',
-      handler : this.controller.healthcheck.bind( this.controller ),
+      handler : this.controller.healthcheck.bind(this.controller),
       config  : {
         description : 'Display the status of the App and DB connection',
         tags        : ['public'],

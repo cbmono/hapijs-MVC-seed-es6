@@ -6,12 +6,12 @@ import winston from 'winston';
 const loggingConfig = config.logging;
 const transports = [];
 
-if ( loggingConfig.console ) {
-  transports.push( new winston.transports.Console( loggingConfig.console ) );
+if (loggingConfig.console) {
+  transports.push(new winston.transports.Console(loggingConfig.console));
 }
 
 // Export
-export default new winston.Logger( {
+export default new winston.Logger({
   transports,
-  rewriters : [( ( level, msg, meta ) => Purdy( meta ) )],
-} );
+  rewriters : [((level, msg, meta) => Purdy(meta))],
+});

@@ -4,224 +4,224 @@ import { BaseModelRDMS } from './BaseModel.RDMS';
 //
 // Tests
 //
-describe( 'Model: BaseModelRDMS', () => {
+describe('Model: BaseModelRDMS', () => {
   let model;
   let ExtentedClass;
 
-  beforeEach( () => {
+  beforeEach(() => {
     ExtentedClass = class ext extends BaseModelRDMS {};
-    model = new ExtentedClass( 'EMPTY_TABLE' );
-  } );
+    model = new ExtentedClass('EMPTY_TABLE');
+  });
 
-  it( 'should not instantiated directly', () => {
-    expect( () => new BaseModelRDMS( 'DBTABLENAME' ) ).toThrow( Error( 'BaseModelRDMS is an abstract class and cannot be instantiated directly' ) );
-  } );
+  it('should not instantiated directly', () => {
+    expect(() => new BaseModelRDMS('DBTABLENAME')).toThrow(Error('BaseModelRDMS is an abstract class and cannot be instantiated directly'));
+  });
 
-  it( 'should be defined and have access to Knex', () => {
-    expect( model ).not.toBe( undefined );
-    expect( model.Knex ).not.toBe( undefined );
-    expect( model.setTimestamps ).toBe( true );
-  } );
+  it('should be defined and have access to Knex', () => {
+    expect(model).not.toBe(undefined);
+    expect(model.Knex).not.toBe(undefined);
+    expect(model.setTimestamps).toBe(true);
+  });
 
-  it( 'should properly set the DB table name and timestamp option', () => {
+  it('should properly set the DB table name and timestamp option', () => {
     const tableName = 'hello_world';
     const timestamp = false;
-    const baseModel = new ExtentedClass( tableName, timestamp );
+    const baseModel = new ExtentedClass(tableName, timestamp);
 
-    expect( baseModel.tableName ).toBe( tableName );
-    expect( baseModel.setTimestamps ).toBe( timestamp );
-  } );
+    expect(baseModel.tableName).toBe(tableName);
+    expect(baseModel.setTimestamps).toBe(timestamp);
+  });
 
-  it( 'should throw on empty DB table name', () => {
+  it('should throw on empty DB table name', () => {
     try {
       new ExtentedClass();
     }
-    catch ( exc ) {
-      expect( exc.name ).toBe( 'Error' );
-      expect( exc.message ).toBe( 'DB table name undefined' );
+    catch (exc) {
+      expect(exc.name).toBe('Error');
+      expect(exc.message).toBe('DB table name undefined');
     }
-  } );
+  });
 
-  describe( 'find methods', () => {
+  describe('find methods', () => {
     let knexRes;
 
-    beforeEach( () => {
-      knexRes = ( spyOn( model, 'Knex' ).and.returnValue( ( {
+    beforeEach(() => {
+      knexRes = (spyOn(model, 'Knex').and.returnValue(({
         where   : () => {},
         whereIn : () => {},
-      } ) ) )();
+      })))();
 
-      spyOn( knexRes, 'where' ).and.returnValue( Promise.resolve( {} ) );
-      spyOn( knexRes, 'whereIn' ).and.returnValue( Promise.resolve( {} ) );
-    } );
+      spyOn(knexRes, 'where').and.returnValue(Promise.resolve({}));
+      spyOn(knexRes, 'whereIn').and.returnValue(Promise.resolve({}));
+    });
 
-    it( 'should expose findAll()', () => {
+    it('should expose findAll()', () => {
       model.findAll();
-      expect( model.Knex ).toHaveBeenCalledWith( model.tableName );
-    } );
+      expect(model.Knex).toHaveBeenCalledWith(model.tableName);
+    });
 
-    it( 'should expose findBy()', () => {
+    it('should expose findBy()', () => {
       const field = 'id';
       const value1 = 1;
       const value2 = [1, 2, 3];
 
-      model.findBy( field, value1 );
-      expect( model.Knex ).toHaveBeenCalledWith( model.tableName );
-      expect( knexRes.where ).toHaveBeenCalledWith( field, value1 );
+      model.findBy(field, value1);
+      expect(model.Knex).toHaveBeenCalledWith(model.tableName);
+      expect(knexRes.where).toHaveBeenCalledWith(field, value1);
 
-      model.findBy( field, value2 );
-      expect( model.Knex ).toHaveBeenCalledWith( model.tableName );
-      expect( knexRes.whereIn ).toHaveBeenCalledWith( field, value2 );
-    } );
+      model.findBy(field, value2);
+      expect(model.Knex).toHaveBeenCalledWith(model.tableName);
+      expect(knexRes.whereIn).toHaveBeenCalledWith(field, value2);
+    });
 
-    it( 'should expose findById()', () => {
+    it('should expose findById()', () => {
       const id = 1;
 
-      spyOn( model, 'findBy' ).and.returnValue( Promise.resolve( {} ) );
-      model.findById( id );
+      spyOn(model, 'findBy').and.returnValue(Promise.resolve({}));
+      model.findById(id);
 
-      expect( model.findBy ).toHaveBeenCalledWith( 'id', id );
-    } );
-  } );
+      expect(model.findBy).toHaveBeenCalledWith('id', id);
+    });
+  });
 
-  describe( 'save/update methods', () => {
+  describe('save/update methods', () => {
     const name = 'Some cool name';
     const data = { name };
     let knexRes;
     let insertRes;
     let updateRes;
 
-    beforeEach( () => {
-      spyOn( model, 'dbConfig' ).and.returnValue( { client : 'pg' } );
-      spyOn( model, 'now' ).and.returnValue( 'NOW()' );
-      spyOn( model, 'findById' ).and.returnValue( Promise.resolve( {} ) );
+    beforeEach(() => {
+      spyOn(model, 'dbConfig').and.returnValue({ client : 'pg' });
+      spyOn(model, 'now').and.returnValue('NOW()');
+      spyOn(model, 'findById').and.returnValue(Promise.resolve({}));
 
       /* eslint no-unused-expressions: 0*/
       /* eslint no-unused-labels: 0*/
       /* eslint no-labels: 0*/
-      knexRes = ( spyOn( model, 'Knex' ).and.returnValue( ( {
+      knexRes = (spyOn(model, 'Knex').and.returnValue(({
         insert : () => { returning : () => {}; },
         update : () => { whereIn: () => {}; },
-      } ) ) )();
+      })))();
 
-      insertRes = ( spyOn( knexRes, 'insert' ).and.returnValue( { returning : () => {} } ) )();
-      spyOn( insertRes, 'returning' ).and.returnValue( Promise.resolve( {} ) );
+      insertRes = (spyOn(knexRes, 'insert').and.returnValue({ returning : () => {} }))();
+      spyOn(insertRes, 'returning').and.returnValue(Promise.resolve({}));
 
-      updateRes = ( spyOn( knexRes, 'update' ).and.returnValue( { whereIn : () => {} } ) )();
-      spyOn( updateRes, 'whereIn' ).and.returnValue( Promise.resolve( {} ) );
-    } );
+      updateRes = (spyOn(knexRes, 'update').and.returnValue({ whereIn : () => {} }))();
+      spyOn(updateRes, 'whereIn').and.returnValue(Promise.resolve({}));
+    });
 
-    describe( 'should expose save()', () => {
-      it( 'should set timestamps if \'setTimestamps = true\'', () => {
+    describe('should expose save()', () => {
+      it('should set timestamps if \'setTimestamps = true\'', () => {
         model.setTimestamps = true;
-        model.save( data );
+        model.save(data);
 
-        expect( model.Knex ).toHaveBeenCalledWith( model.tableName );
-        expect( knexRes.insert ).toHaveBeenCalledWith( {
+        expect(model.Knex).toHaveBeenCalledWith(model.tableName);
+        expect(knexRes.insert).toHaveBeenCalledWith({
           name,
           created_at : 'NOW()',
           updated_at : 'NOW()',
-        } );
-      } );
+        });
+      });
 
-      it( 'should not set timestamps if \'setTimestamps = false\'', () => {
+      it('should not set timestamps if \'setTimestamps = false\'', () => {
         model.setTimestamps = false;
-        model.save( data );
+        model.save(data);
 
-        expect( knexRes.insert ).toHaveBeenCalledWith( data );
-      } );
+        expect(knexRes.insert).toHaveBeenCalledWith(data);
+      });
 
-      it( 'should call returning(\'*\') if PostgreSQL', () => {
+      it('should call returning(\'*\') if PostgreSQL', () => {
         model.dbConfig.client = 'pg';
-        model.save( data );
+        model.save(data);
 
-        expect( insertRes.returning ).toHaveBeenCalledWith( ( '*' ) );
-      } );
+        expect(insertRes.returning).toHaveBeenCalledWith(('*'));
+      });
 
-      it( 'should not call returning(\'*\') if not PostgreSQL', () => {
+      it('should not call returning(\'*\') if not PostgreSQL', () => {
         model.dbConfig.client = 'something else';
-        model.save( data );
+        model.save(data);
 
-        expect( insertRes.returning ).not.toHaveBeenCalled();
-      } );
-    } );
+        expect(insertRes.returning).not.toHaveBeenCalled();
+      });
+    });
 
-    describe( 'should expose update()', () => {
+    describe('should expose update()', () => {
       const id = 1;
 
-      it( 'should set timestamps if \'setTimestamps = true\'', ( done ) => {
+      it('should set timestamps if \'setTimestamps = true\'', (done) => {
         model.setTimestamps = true;
 
-        model.update( id, data ).then( () => {
-          expect( model.Knex ).toHaveBeenCalledWith( model.tableName );
-          expect( knexRes.update ).toHaveBeenCalledWith( {
+        model.update(id, data).then(() => {
+          expect(model.Knex).toHaveBeenCalledWith(model.tableName);
+          expect(knexRes.update).toHaveBeenCalledWith({
             name,
             updated_at : 'NOW()',
-          } );
-          expect( updateRes.whereIn ).toHaveBeenCalledWith( 'id', id );
-          expect( model.findById ).toHaveBeenCalledWith( id );
+          });
+          expect(updateRes.whereIn).toHaveBeenCalledWith('id', id);
+          expect(model.findById).toHaveBeenCalledWith(id);
           done();
-        } );
-      } );
+        });
+      });
 
-      it( 'should not set timestamps if \'setTimestamps = false\'', () => {
+      it('should not set timestamps if \'setTimestamps = false\'', () => {
         model.setTimestamps = false;
-        model.update( id, data );
+        model.update(id, data);
 
-        expect( knexRes.update ).toHaveBeenCalledWith( data );
-      } );
-    } );
-  } );
+        expect(knexRes.update).toHaveBeenCalledWith(data);
+      });
+    });
+  });
 
-  describe( 'delete methods', () => {
+  describe('delete methods', () => {
     const id = 1;
     let knexRes;
     let deleteRes;
 
-    beforeEach( () => {
-      knexRes = ( spyOn( model, 'Knex' ).and.returnValue( ( {
+    beforeEach(() => {
+      knexRes = (spyOn(model, 'Knex').and.returnValue(({
         del : () => {},
-      } ) ) )();
+      })))();
 
-      deleteRes = ( spyOn( knexRes, 'del' ).and.returnValue( { whereIn : () => {} } ) )();
-      spyOn( deleteRes, 'whereIn' ).and.returnValue( Promise.resolve( {} ) );
-    } );
+      deleteRes = (spyOn(knexRes, 'del').and.returnValue({ whereIn : () => {} }))();
+      spyOn(deleteRes, 'whereIn').and.returnValue(Promise.resolve({}));
+    });
 
-    it( 'should expose remove()', () => {
-      model.remove( id );
+    it('should expose remove()', () => {
+      model.remove(id);
 
-      expect( model.Knex ).toHaveBeenCalledWith( model.tableName );
-      expect( knexRes.del ).toHaveBeenCalled();
-      expect( deleteRes.whereIn ).toHaveBeenCalledWith( 'id', id );
-    } );
+      expect(model.Knex).toHaveBeenCalledWith(model.tableName);
+      expect(knexRes.del).toHaveBeenCalled();
+      expect(deleteRes.whereIn).toHaveBeenCalledWith('id', id);
+    });
 
-    it( 'should expose del()', () => {
-      spyOn( model, 'remove' ).and.returnValue( Promise.resolve( {} ) );
-      model.del( id );
+    it('should expose del()', () => {
+      spyOn(model, 'remove').and.returnValue(Promise.resolve({}));
+      model.del(id);
 
-      expect( model.remove ).toHaveBeenCalledWith( id );
-    } );
-  } );
+      expect(model.remove).toHaveBeenCalledWith(id);
+    });
+  });
 
-  describe( 'other internal methods', () => {
-    beforeEach( () => {
-      spyOn( model, 'dbConfig' ).and.returnValue( { client : 'pg' } );
-      spyOn( model.Knex, 'raw' ).and.callThrough();
-    } );
+  describe('other internal methods', () => {
+    beforeEach(() => {
+      spyOn(model, 'dbConfig').and.returnValue({ client : 'pg' });
+      spyOn(model.Knex, 'raw').and.callThrough();
+    });
 
-    it( 'should expose now()', () => {
+    it('should expose now()', () => {
       const now = model.now();
 
-      expect( model.Knex.raw ).toHaveBeenCalledWith( 'NOW()' );
-      expect( now.sql ).toBe( 'NOW()' );
-    } );
+      expect(model.Knex.raw).toHaveBeenCalledWith('NOW()');
+      expect(now.sql).toBe('NOW()');
+    });
 
-    it( 'should expose now() with support for SQLite', () => {
+    it('should expose now() with support for SQLite', () => {
       model.dbConfig.client = 'sqlite3';
       const now = model.now();
 
-      expect( model.Knex.raw ).toHaveBeenCalledWith( 'date(\'now\')' );
-      expect( now.sql ).toBe( 'date(\'now\')' );
-    } );
-  } );
-} );
+      expect(model.Knex.raw).toHaveBeenCalledWith('date(\'now\')');
+      expect(now.sql).toBe('date(\'now\')');
+    });
+  });
+});
