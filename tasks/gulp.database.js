@@ -84,7 +84,7 @@ gulp.task('db:seed', () => {
       gutil.log(gutil.colors.green.bold('Seed successful!'));
       gutil.log(
         gutil.colors.yellow('> Executed Seeds:'),
-        `\n - ${response[1].join('\n- ')}`
+        `\n - ${response[0].join('\n- ')}`
       );
     }
     else {
