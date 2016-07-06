@@ -30,7 +30,7 @@ export class ToDoList extends BaseModelRDMS {
         return this.ToDo.findBy('todo_list_id', id).then(todos => {
           /* eslint no-param-reassign: 0*/
           response[0].todos = todos;
-          return responeArray;
+          return response;
         });
       }
 

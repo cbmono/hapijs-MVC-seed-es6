@@ -44,7 +44,7 @@ server.register(pluginsConfig,
     const routesNormalizedPath = path.join(__dirname, 'routes');
 
     fs.readdirSync(routesNormalizedPath)
-      .filter(file => !file.includes('.spec') || file !== 'base.routes.js')
+      .filter(file => !file.includes('.spec') && file !== 'base.routes.js')
       .forEach(registerRoute);
 
     //
