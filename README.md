@@ -51,8 +51,9 @@ The seed contains a sample [hapi] application (ToDo Lists) and is preconfigured 
   cd hapijs-seed-mvc
   ```
 
-2. Install the dependencies
+2. Install the dependencies.
   ```
+  npm install -g babel-cli
   npm install
   ```
 
