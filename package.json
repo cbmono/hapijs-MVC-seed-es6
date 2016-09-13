@@ -69,7 +69,7 @@
     "gulp-util": "^3.0.7",
     "istanbul": "^0.4.4",
     "merge-stream": "^1.0.0",
-    "node-fetch": "^1.5.3",
+    "node-fetch": "^1.6.1",
     "run-sequence": "^1.1.5",
     "watch": "^0.19.1"
   }
