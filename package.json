@@ -64,7 +64,7 @@
     "gulp-codecov": "^2.0.1",
     "gulp-eslint": "^3.0.0",
     "gulp-file-cache": "0.0.1",
-    "gulp-jasmine": "^2.2.1",
+    "gulp-jasmine": "^2.4.2",
     "gulp-nodemon": "^2.1.0",
     "gulp-util": "^3.0.7",
     "istanbul": "^0.4.4",
