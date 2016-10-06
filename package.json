@@ -71,6 +71,6 @@
     "merge-stream": "^1.0.0",
     "node-fetch": "^1.5.3",
     "run-sequence": "^1.1.5",
-    "watch": "^0.19.1"
+    "watch": "^1.0.1"
   }
 }
