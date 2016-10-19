@@ -1,5 +1,5 @@
 import config  from 'config'
-import { default as log } from '../../src/logger'
+import { default as log } from '../../libs/logger'
 
 const rp = require('request-promise')
 
@@ -24,7 +24,6 @@ describe(`API Test: Main`, () => {
           expect(body.ping).toBe('pong')
           expect(body.timestamp).toBeGreaterThan(0)
           expect(body.database.healthy).toBe(true)
-          expect(body.database.dbname).toBe(config.database.connection.database)
           done()
         },
         (err) => fail

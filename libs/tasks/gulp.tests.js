@@ -18,8 +18,8 @@ const mergeStream = require('merge-stream')
 var appSrc = [
   'src/**/*!(.spec).js',
   '!src/**/*.spec.js',
-  '!src/logger.js',
-  '!src/db.js'
+  '!libs/logger.js',
+  '!libs/db.js'
 ]
 var unitTestSrc = 'src/**/*.spec.js'
 var apiTestSrc = 'tests/api/**/*.js'

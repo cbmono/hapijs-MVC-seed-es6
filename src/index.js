@@ -9,7 +9,7 @@ import { default as log } from '../libs/logger'
 
 
 //
-// Global dependencies 
+// Global dependencies
 // (available across the whole App)
 //
 GLOBAL._ = _        // lodash
@@ -27,9 +27,12 @@ server.connection(config.get('server'))
 const pluginsPath = path.join(__dirname, '../libs/plugins')
 
 fs.readdirSync(pluginsPath).forEach((pluginFile) => {
-  let plugin = require('../libs/plugins/' + pluginFile).default()
-  
-  plugin.register(server)
+  // Only require JS files
+  if (/.*\.js$/.test(pluginFile)) {
+    let plugin = require('../libs/plugins/' + pluginFile).default()
+
+    plugin.register(server)
+  }
 })
 
 //

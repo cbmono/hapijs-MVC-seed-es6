@@ -1,6 +1,6 @@
 import config  from 'config'
 import _  from 'lodash'
-import { default as log } from '../../src/logger'
+import { default as log } from '../../libs/logger'
 
 const rp = require('request-promise')
 
