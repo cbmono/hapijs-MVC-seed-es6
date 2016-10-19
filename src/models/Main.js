@@ -10,6 +10,7 @@ export class Main extends BaseModelRDMS {
    * Constructor
    */
   constructor() {
+    /* istanbul ignore next */
     super('EMPTY')
   }
 

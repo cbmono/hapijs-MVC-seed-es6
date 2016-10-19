@@ -11,6 +11,8 @@ export class ToDo extends BaseModelRDMS {
    */
   constructor() {
     let tableName = 'todos'
+
+    /* istanbul ignore next */
     super(tableName)
   }
 }

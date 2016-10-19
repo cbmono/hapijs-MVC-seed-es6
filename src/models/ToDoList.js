@@ -12,8 +12,9 @@ export class ToDoList extends BaseModelRDMS {
    */
   constructor() {
     let tableName = 'todo_lists'
+    
+    /* istanbul ignore next */
     super(tableName)
-
     this.ToDo = new ToDo()
   }
 

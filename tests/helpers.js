@@ -13,17 +13,17 @@ GLOBAL.log = log
 /**
  * Helper assert method for routes
  *
- * @param  {object} routes
- * @param  {string} expectedPath
- * @param  {string} expectedMethod
- * @param  {boolean} validateParams [optioal]
- * @param  {boolean} validatePayload [optioal]
+ * @param {object} routes
+ * @param {string} expectedPath
+ * @param {string} expectedMethod
+ * @param {boolean} validateParams [optioal]
+ * @param {boolean} validatePayload [optioal]
  */
-export function assertRoutes( routes,
-                              expectedPath,
-                              expectedMethod,
-                              validateParams = false,
-                              validatePayload = false) {
+export function assertRoutes(routes,
+                             expectedPath,
+                             expectedMethod,
+                             validateParams = false,
+                             validatePayload = false) {
 
   let route = _.find(routes, { path: expectedPath, method: expectedMethod })
 

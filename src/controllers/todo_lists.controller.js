@@ -13,6 +13,7 @@ export class ToDoListsController extends BaseController {
   constructor() {
     let notFoundMsg = `ToDo List not found`
 
+    /* istanbul ignore next */
     super(notFoundMsg)
     this.ToDoList = new ToDoList()
   }

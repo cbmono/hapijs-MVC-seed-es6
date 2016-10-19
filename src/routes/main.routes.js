@@ -11,6 +11,7 @@ let routes = new class MainRoutes extends BaseRoutes {
    * Constructor
    */
   constructor() {
+    /* istanbul ignore next */
     super(new MainController())
   }
 

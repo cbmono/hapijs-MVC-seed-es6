@@ -11,6 +11,8 @@ let routes = new class TodoListsRoutes extends BaseRoutes {
    */
   constructor() {
     let endpointName = '/todo-lists'
+
+    /* istanbul ignore next */
     super(new ToDoListsController(), endpointName)
   }
 
@@ -20,7 +22,7 @@ let routes = new class TodoListsRoutes extends BaseRoutes {
    * @return {object}
    */
   viewAll() {
-    // Re-use default view()
+    /* istanbul ignore next */
     let route = super.view()
 
     // Overwrite attributes
@@ -37,7 +39,7 @@ let routes = new class TodoListsRoutes extends BaseRoutes {
    * @return {object}
    */
   create() {
-    // Get route settings from parent
+    /* istanbul ignore next */
     let route = super.create()
 
     // Update end-point description (used in Documentation)
@@ -57,7 +59,7 @@ let routes = new class TodoListsRoutes extends BaseRoutes {
    * @return {object}
    */
   update() {
-    // Get route settings from parent
+    /* istanbul ignore next */
     let route = super.update()
 
     // Update end-point description (used in Documentation)
