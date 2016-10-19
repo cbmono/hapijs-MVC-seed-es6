@@ -1,6 +1,5 @@
 import { BaseModelRDMS } from './BaseModel.RDMS';
 
-
 //
 // Tests
 //
@@ -87,6 +86,7 @@ describe('Model: BaseModelRDMS', () => {
   describe('save/update methods', () => {
     const name = 'Some cool name';
     const data = { name };
+    
     let knexRes;
     let insertRes;
     let updateRes;
@@ -100,8 +100,8 @@ describe('Model: BaseModelRDMS', () => {
       /* eslint no-unused-labels: 0*/
       /* eslint no-labels: 0*/
       knexRes = (spyOn(model, 'Knex').and.returnValue(({
-        insert : () => { returning : () => {}; },
-        update : () => { whereIn: () => {}; },
+        insert : () => { returning: () => {}; },
+        update : () => { whereIn: () => {}; }
       })))();
 
       insertRes = (spyOn(knexRes, 'insert').and.returnValue({ returning : () => {} }))();
@@ -160,6 +160,7 @@ describe('Model: BaseModelRDMS', () => {
           });
           expect(updateRes.whereIn).toHaveBeenCalledWith('id', id);
           expect(model.findById).toHaveBeenCalledWith(id);
+          
           done();
         });
       });

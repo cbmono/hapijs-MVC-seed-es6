@@ -9,8 +9,10 @@ export class Main extends BaseModelRDMS {
    * Constructor
    */
   constructor() {
+    /* istanbul ignore next */
     super('EMPTY');
   }
+
   /**
    * Run a system healthcheck
    *
@@ -29,15 +31,16 @@ export class Main extends BaseModelRDMS {
       },
     };
 
-
     // Check database
     try {
       await this.Knex.raw('SELECT 1+1 AS result');
       response.uptime = `${process.uptime()} seconds`;
+      
       return Promise.resolve(response);
     }
     catch (e) {
       response.database.healthy = false;
+      
       return Promise.resolve(response);
     }
   }

@@ -1,7 +1,6 @@
 import { BaseModelRDMS } from './BaseModel.RDMS';
 import { ToDo } from './ToDo';
 
-
 //
 // ToDo Lists
 //
@@ -12,8 +11,9 @@ export class ToDoList extends BaseModelRDMS {
    */
   constructor() {
     const tableName = 'todo_lists';
+    
+    /* istanbul ignore next */
     super(tableName);
-
     this.ToDo = new ToDo();
   }
 

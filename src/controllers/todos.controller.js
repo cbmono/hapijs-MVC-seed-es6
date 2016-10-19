@@ -1,7 +1,6 @@
 import { ToDo } from '../models/ToDo';
 import { BaseController } from './base.controller';
 
-
 //
 // Controller for ToDo lists
 //
@@ -13,6 +12,7 @@ export class ToDosController extends BaseController {
   constructor() {
     const notFoundMsg = 'ToDo List not found';
 
+    /* istanbul ignore next */
     super(notFoundMsg);
     this.ToDo = new ToDo();
   }
@@ -36,6 +36,7 @@ export class ToDosController extends BaseController {
    */
   create(request, reply) {
     const data = request.payload;
+
     this.handleRequest(this.ToDo.save(data), reply);
   }
 
@@ -45,6 +46,7 @@ export class ToDosController extends BaseController {
   update(request, reply) {
     const { id } = request.params;
     const data = request.payload;
+
     this.handleRequest(this.ToDo.update(id, data), reply);
   }
 

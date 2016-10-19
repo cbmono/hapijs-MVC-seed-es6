@@ -1,6 +1,5 @@
 import { BaseController } from './base.controller';
 
-
 //
 // Tests
 //
