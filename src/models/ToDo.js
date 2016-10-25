@@ -9,7 +9,7 @@ export class ToDo extends BaseModelRDMS {
    * Constructor
    */
   constructor() {
-    let tableName = 'todos';
+    const tableName = 'todos';
 
     /* istanbul ignore next */
     super(tableName);

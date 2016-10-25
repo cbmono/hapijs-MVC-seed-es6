@@ -27,7 +27,7 @@ const pluginsPath = path.join(__dirname, '../libs/plugins');
 fs.readdirSync(pluginsPath).forEach((pluginFile) => {
   // Only require JS files
   if (/.*\.js$/.test(pluginFile)) {
-    let plugin = require('../libs/plugins/' + pluginFile).default();
+    const plugin = require('../libs/plugins/' + pluginFile).default();
 
     plugin.register(server);
   }
@@ -41,9 +41,9 @@ const routesPath = path.join(__dirname, 'routes');
 fs.readdirSync(routesPath).forEach((file) => {
   // Ignore base.routes and .spec files
   if (file !== 'base.routes.js' && file.indexOf('.spec.') === -1) {
-    let routes = require('./routes/' + file).default;
+    const routes = require('./routes/' + file).default;
 
-    routes.forEach((route) => server.route(route));
+    routes.forEach(route => server.route(route));
   }
 });
 

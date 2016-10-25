@@ -28,14 +28,14 @@ describe('Controller: ToDo\'s', () => {
 
   it('should expose view()', () => {
     const id = 1;
-    const request = { params : { id } };
+    const request = { params: { id } };
 
     controller.view(request);
     expect(controller.ToDo.findById).toHaveBeenCalledWith(id);
   });
 
   it('should expose create()', () => {
-    const payload = { name : 'New ToDo' };
+    const payload = { name: 'New ToDo' };
     const request = { payload };
 
     controller.create(request);
@@ -44,9 +44,9 @@ describe('Controller: ToDo\'s', () => {
 
   it('should expose update()', () => {
     const id = 1;
-    const payload = { name : 'Updated ToDo' };
+    const payload = { name: 'Updated ToDo' };
     const request = {
-      params : { id },
+      params: { id },
       payload,
     };
 
@@ -56,7 +56,7 @@ describe('Controller: ToDo\'s', () => {
 
   it('should expose remove()', () => {
     const id = 1;
-    const request = { params : { id } };
+    const request = { params: { id } };
 
     controller.remove(request);
     expect(controller.ToDo.del).toHaveBeenCalledWith(id);

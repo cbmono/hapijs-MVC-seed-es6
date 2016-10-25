@@ -77,7 +77,6 @@ The seed contains a sample [hapi] application (ToDo Lists) and is preconfigured 
 
 2. Install the dependencies.
   ```
-  npm install -g babel-cli
   npm install
   ```
 
@@ -220,6 +219,11 @@ forever start index.js
   log.error('Error: ', err)
   ```
 
+---
+
+## Contributors
+
+* Avraam Mavridis ([@AvraamMavridis](https://github.com/AvraamMavridis))
 
 
 

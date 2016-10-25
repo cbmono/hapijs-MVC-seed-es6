@@ -17,7 +17,7 @@ const gulpTasksSrc = './libs/tasks/**/gulp.*.js';
 // Load Gulp Tasks
 //
 glob.sync(gulpTasksSrc)
-  .forEach((file) => require(path.resolve(file)));
+  .forEach(file => require(path.resolve(file)));
 
 //
 // Default (gulp) task

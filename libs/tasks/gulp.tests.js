@@ -27,13 +27,13 @@ const coverageDone$ = () => {
   gutil.log('');
   gutil.log(gutil.colors.yellow('To see more Test Coverage details, run:'));
   gutil.log(gutil.colors.cyan(`open tests/coverage/lcov-report/index.html \n`));
-  
+
   process.exit(0);
 };
 
 const coverageError$ = (err) => {
   gutil.log(gutil.colors.red('Error running code coverage: '), err);
-  
+
   process.exit(1);
 };
 
@@ -50,7 +50,7 @@ gulp.task('jasmine:unit', () => gulp
   }))
   .on('error', (err) => {
     gutil.log(gutil.colors.red('Error running UnitTest\'s: '), err);
-    
+
     process.exit(1);
   })
 );
@@ -65,7 +65,7 @@ gulp.task('jasmine:api', () => gulp
   }))
   .on('error', (err) => {
     gutil.log(gutil.colors.red('Error running API Tests: '), err);
-    
+
     process.exit(1);
   })
 );

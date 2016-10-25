@@ -19,7 +19,7 @@ export class Main extends BaseModelRDMS {
    * @return {promise}
    */
   async doHealthcheck() {
-    const { connectionSettings: { database: dbname }} = this.Knex.client;
+    const { connectionSettings: { database: dbname } } = this.Knex.client;
 
     const response = {
       ping: 'pong',
@@ -36,12 +36,12 @@ export class Main extends BaseModelRDMS {
     try {
       await this.Knex.raw('SELECT 1+1 AS result');
       response.uptime = `${process.uptime()} seconds`;
-      
+
       return Promise.resolve(response);
     }
     catch (e) {
       response.database.healthy = false;
-      
+
       return Promise.resolve(response);
     }
   }

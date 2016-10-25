@@ -24,7 +24,7 @@ describe('Model: Main', () => {
       expect(response.uptime).toBeDefined();
       expect(response.timestamp).toBeDefined();
       expect(response.database.healthy).toBe(true);
-      
+
       done();
     });
   });
@@ -35,7 +35,7 @@ describe('Model: Main', () => {
     model.doHealthcheck().then((response) => {
       expect(model.Knex.raw).toHaveBeenCalled();
       expect(response.database.healthy).toBe(false);
-      
+
       done();
     });
   });

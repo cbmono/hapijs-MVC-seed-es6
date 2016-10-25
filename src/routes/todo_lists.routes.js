@@ -72,7 +72,7 @@ const routes = new class TodoListsRoutes extends BaseRoutes {
 
     return route;
   }
-};
+}();
 
 //
 // Export public end-points

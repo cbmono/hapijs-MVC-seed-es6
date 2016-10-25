@@ -27,7 +27,7 @@ export class ToDosController extends BaseController {
   /**
    * Retrieve a single ToDo
    */
-  view({ params : { id } }, reply) {
+  view({ params: { id } }, reply) {
     this.handleRequest(this.ToDo.findById(id), reply);
   }
 
@@ -53,7 +53,7 @@ export class ToDosController extends BaseController {
   /**
    * Delete a ToDo
    */
-  remove({ params : { id } }, reply) {
+  remove({ params: { id } }, reply) {
     this.handleRequest(this.ToDo.del(id), reply);
   }
 }

@@ -11,7 +11,7 @@ const routes = new class TodosRoutes extends BaseRoutes {
    */
   constructor() {
     const endpointName = '/todos';
-    
+
     /* istanbul ignore next */
     super(new ToDosController(), endpointName);
   }
@@ -60,7 +60,7 @@ const routes = new class TodosRoutes extends BaseRoutes {
 
     return route;
   }
-};
+}();
 
 //
 // Export public end-points

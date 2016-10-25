@@ -1,5 +1,5 @@
-import config  from 'config';
-import Knex  from '../../libs/db';
+import config from 'config';
+import Knex from '../../libs/db';
 
 const getTimestamps = Symbol('getTimestamps');
 
@@ -10,11 +10,11 @@ const getTimestamps = Symbol('getTimestamps');
  * This (abstract) class is meant to extend any custom model
  * by providing baisc find/findBy and CRUD methods, such as:
  *
- * 		* find()
- * 		* findBy()
- * 		* save()
- * 		* update()
- * 		* ... etc.
+ *    * find()
+ *    * findBy()
+ *    * save()
+ *    * update()
+ *    * ... etc.
  *
  * Supported Relational Databases :
  *
@@ -202,7 +202,7 @@ export class BaseModelRDMS {
    */
   [ getTimestamps ]() {
     const now = this.now();
-    
+
     return {
       updated_at: now,
       created_at: now

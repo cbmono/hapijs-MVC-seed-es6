@@ -36,20 +36,20 @@ const routes = new class MainRoutes extends BaseRoutes {
    *
    * @return {object}
    */
-  staticFiles() {
+  staticFiles() { // eslint-disable-line class-methods-use-this
     return {
       method: 'GET',
       path: '/{param*}',
       handler: {
-        directory: { path : './public' }
+        directory: { path: './public' }
       },
       config: {
-        plugins: { lout : false },
+        plugins: { lout: false },
         description: 'Serve static files from ./public'
       }
     };
   }
-};
+}();
 
 //
 // Export public end-points
