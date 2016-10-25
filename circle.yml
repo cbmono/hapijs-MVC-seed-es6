@@ -9,6 +9,8 @@ dependencies:
     - npm install
     - npm install -g npm
     - npm install -g babel-cli
+  cache_directories:
+    - ~/nvm
 
 test:
   pre:
@@ -16,8 +18,6 @@ test:
     - npm run db:seed
     - npm start:
         background: true
-  cache_directories:
-    - ~/nvm
   override:
     - wget --retry-connrefused --no-check-certificate -T 60  http://127.0.0.1:3000/healthcheck -O /dev/null
     - npm test
