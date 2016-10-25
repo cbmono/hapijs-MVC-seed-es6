@@ -1,9 +1,10 @@
-import _  from 'lodash';
-import fs  from 'fs';
-import config  from 'config';
-import Hapi  from 'hapi';
-import path  from 'path';
+import _ from 'lodash';
+import fs from 'fs';
+import config from 'config';
+import Hapi from 'hapi';
+import path from 'path';
 import { default as log } from '../libs/logger';
+
 
 //
 // Global dependencies
@@ -17,18 +18,6 @@ global.log = log;    // Used instead of console()
 //
 const server = new Hapi.Server();
 server.connection(config.get('server'));
-
-
-/**
- * registerRoute - Register Routes to the server
- *
- * @param { Object } file
- *
- */
-const registerRoute = file => {
-  const routes = require(`./routes/${file}`).default;
-  routes.forEach(route => server.route(route));
-};
 
 //
 // Load & Register Hapi Plugins

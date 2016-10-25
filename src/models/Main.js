@@ -19,16 +19,17 @@ export class Main extends BaseModelRDMS {
    * @return {promise}
    */
   async doHealthcheck() {
-    const { connectionSettings : { database : dbname } } = this.Knex.client;
+    const { connectionSettings: { database: dbname }} = this.Knex.client;
 
     const response = {
-      ping        : 'pong',
-      environment : process.env.NODE_ENV,
-      timestamp   : Date.now(),
-      database    : {
+      ping: 'pong',
+      environment: process.env.NODE_ENV,
+      timestamp: Date.now(),
+      node: process.env,
+      database: {
         dbname,
-        healthy : true,
-      },
+        healthy: true
+      }
     };
 
     // Check database

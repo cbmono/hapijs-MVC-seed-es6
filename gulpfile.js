@@ -11,7 +11,7 @@ const gulp = require('gulp');
 //
 // Variables
 //
-const gulpTasksSrc = './tasks/**/gulp.*.js';
+const gulpTasksSrc = './libs/tasks/**/gulp.*.js';
 
 //
 // Load Gulp Tasks
