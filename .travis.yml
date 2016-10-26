@@ -2,7 +2,6 @@ language: node_js
 node_js:
   - "6"
   - "5"
-  - "node" # latest stable
 
 addons:
   postgresql: "9.4"
@@ -16,6 +15,6 @@ before_script:
   - npm run db:migrate
   - npm run db:seed
   - npm run build &
-  - sleep 10
+  - wget --retry-connrefused --no-check-certificate -T 60 http://127.0.0.1:3000/healthcheck -O /dev/null 2>&1
 
 script: npm test

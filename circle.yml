@@ -7,7 +7,6 @@ machine:
 dependencies:
   pre:
     - npm install -g npm
-    - npm install -g babel-cli
     - npm install
 
 test:
