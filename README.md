@@ -36,7 +36,7 @@ The seed contains a sample [hapi] application (ToDo Lists) and is preconfigured 
 
 - You need git to clone the hapi-seed repository: http://git-scm.com/
 
-- node.js and npm are needed to execute the code: http://nodejs.org/.
+- node.js (5.5.x) and npm (3.x) are needed to execute the code: http://nodejs.org/.
 
 - A relational database is needed, for instance postgreSQL:
   - Mac: http://postgresapp.com/

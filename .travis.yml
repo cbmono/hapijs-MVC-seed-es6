@@ -1,8 +1,8 @@
 language: node_js
 node_js:
-  - "node" # latest stable
-  - "5"
   - "6"
+  - "5"
+  - "node" # latest stable
 
 addons:
   postgresql: "9.4"
@@ -15,7 +15,7 @@ before_script:
   - "export NODE_ENV=ci-travis"
   - npm run db:migrate
   - npm run db:seed
-  - npm start &
+  - npm run build &
   - sleep 10
 
 script: npm test
